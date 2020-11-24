@@ -1,0 +1,1 @@
+python -m ptvsd --host 0.0.0.0 --port 8888 --multiprocess /odoo/bin/pytest $@
