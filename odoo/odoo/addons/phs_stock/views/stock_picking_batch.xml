@@ -6,11 +6,13 @@
     <field name="model">stock.picking.batch.rule</field>
     <field name="arch" type="xml">
         <tree editable="top">
-            <field name="sequence"/>
+            <field name="sequence" widget="handle"/>
             <field name="name"/>
+            <field name="picking_type_id"/>
             <field name="filter_id"/>
             <field name="nbr_box"/>
             <field name="nbr_order"/>
+            <button name="action_batch_creation" icon="fa-magic" type="object" string="Create batch"/>
         </tree>
     </field>
 </record>

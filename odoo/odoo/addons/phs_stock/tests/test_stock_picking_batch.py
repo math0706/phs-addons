@@ -49,7 +49,7 @@ class TestStockPickingBatchRule(TransactionCase):
 
     def test_no_rule_no_batch(self):
         # No batch creation without rules
-        batch = self.picking_batch.batch_automatic_creation()
+        batch = self.rules.batch_creation()
         self.assertEqual(len(batch), 0)
 
     def test_rule_matching_all_pickings(self):
@@ -61,10 +61,12 @@ class TestStockPickingBatchRule(TransactionCase):
                                                     'domain': '[]',
                                                     'context': "{'group_by': []}",
                                                     'sort': '[]'})
-        self.rules.create({'name': 'All',
+        rule = self.rules.create({'name': 'All',
                             'filter_id': filter_all.id,
                             'nbr_box': 2,
                             'nbr_order': 3,
+                            'picking_type_id': self.env['stock.picking.type'].search([('name', '=', 'Pack')])[0].id,
                             })
-        batch = self.picking_batch.batch_automatic_creation()
+        batch = rule.batch_creation()
         self.assertEqual(len(batch), 8)
+    
