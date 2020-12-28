@@ -1,8 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-/.venv
-/.pytest_cache
 
 # C extensions
 *.so
@@ -10,6 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+venv/
 bin/
 build/
 develop-eggs/
@@ -23,7 +22,18 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-*.eggs
+.eggs/
+.db/
+
+# Odoo dev
+odoo/lib64
+odoo/bin
+odoo/include
+odoo/src
+odoo/pyvenv.cfg
+odoo/share
+
+
 
 # Installer logs
 pip-log.txt
@@ -37,39 +47,12 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
-# Translations
-*.mo
-
 # Pycharm
 .idea
 
-# Eclipse
-.settings
-
-# Visual Studio cache/options directory
-.vs/
+# vscode
 .vscode
 
-# OSX Files
-.DS_Store
-
-# Django stuff:
-*.log
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
-
-# Rope
-.ropeproject
-
-# Sphinx documentation
-docs/_build/
-
-# Backup files
-*~
-*.swp
-
-# OCA rules
-!static/lib/
+/.env
+*.pyc
+/data
