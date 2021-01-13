@@ -3,6 +3,7 @@
 import logging
 from odoo import models, fields, _
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class StockPickingBatchRule(models.Model):
                 ("state", "=", "assigned"),
             ]
             pickings = pickings.search(
-                pre_filtered_domain + eval(batch_rule.filter_id.domain)
+                pre_filtered_domain + safe_eval(batch_rule.filter_id.domain)
             )
             nbr_order_in_a_batch = batch_rule.nbr_box * batch_rule.nbr_order
             for i in range(
@@ -113,7 +114,7 @@ class StockMoveLine(models.Model):
                                 "in",
                                 ["draft", "in_progress"],
                             ),
-                        ]
+                        ], limit=1
                     )
                 ):
                     raise UserError(_("Box is not empty"))
