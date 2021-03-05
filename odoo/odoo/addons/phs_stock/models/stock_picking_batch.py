@@ -84,9 +84,67 @@ class StockPickingType(models.Model):
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    def write(self, values):
+    def _check_if_so_allready_in_box(self, location):
+        """ Check that the box allready contain a product of the same order
+        """
+        if len(
+            self.env["stock.move.line"].search(
+                [
+                    ("location_dest_id", "=", location),
+                    (
+                        "move_id.picking_id.batch_id.state",
+                        "in",
+                        ["draft", "in_progress"],
+                    ),
+                    ("origin", "=", self.origin)
+                ], limit=1
+            )
+        ):
+            return True
+        else:
+            return False
 
-        if not self.env.context.get("box_propagation", False) and len(self) == 1:
+    def _check_if_so_in_other_box(self, location):
+        """ Check that the box allready contain a product of the same order
+        """
+        move_line = self.env["stock.move.line"].search(
+                [
+                    ("location_dest_id.name", "!=", 'Packing Zone'),
+                    ("location_dest_id", "!=", location),
+                    (
+                        "move_id.picking_id.batch_id.state",
+                        "in",
+                        ["draft", "in_progress"],
+                    ),
+                    ("origin", "=", self.origin)
+                ], limit=1
+            )
+        if len(move_line):
+            return move_line.location_dest_id
+        else:
+            return False
+
+    def _get_nbr_so_in_box(self, location):
+        lines = self.env["stock.move.line"].search(
+                [
+                    ("location_dest_id", "=", location),
+                    (
+                        "move_id.picking_id.batch_id.state",
+                        "in",
+                        ["draft", "in_progress"],
+                    ),
+                ],
+            )
+        return len(list(set(lines.mapped("origin"))))
+
+
+    def write(self, values):
+        
+        if len(self) == 1 and "location_dest_id" in values and not self._check_if_so_allready_in_box(values["location_dest_id"]):
+            last_scanned_box = self._check_if_so_in_other_box(values["location_dest_id"])
+            if last_scanned_box and last_scanned_box.id != values["location_dest_id"]:
+                raise UserError(_(f"Scan the correct box - {last_scanned_box.name}"))
+
             batch_rule = self.move_id.picking_id.batch_id.batch_rule_id
             if len(batch_rule) == 1:
                 nbr_order = batch_rule.nbr_order
@@ -96,53 +154,7 @@ class StockMoveLine(models.Model):
                     .sudo()
                     .get_param("picking_box_nbr_order", 6)
                 )
-            if (
-                "location_dest_id" in values
-                and len(self) == 1
-                and self.location_dest_id.name
-                == self.env["ir.config_parameter"]
-                .sudo()
-                .get_param("dest_location_to_split_in_box", "Packing Zone")
-            ):
-                # Check that the destination box is not already used in an other open picking batch
-                if len(
-                    self.env["stock.move.line"].search(
-                        [
-                            ("location_dest_id", "=", values["location_dest_id"]),
-                            (
-                                "move_id.picking_id.batch_id.state",
-                                "in",
-                                ["draft", "in_progress"],
-                            ),
-                        ], limit=1
-                    )
-                ):
-                    raise UserError(_("Box is not empty"))
-
-                batch = self.move_id.picking_id.batch_id
-                move_lines = self.search(
-                    [
-                        ("move_id.picking_id.batch_id.id", "=", batch.id),
-                        ("location_dest_id.name", "=", "Packing Zone"),
-                    ]
-                )
-                order_name_list = list(set(move_lines.mapped("origin")))
-                order_name_list.remove(self.origin)
-                order_name_list = [self.origin] + order_name_list[: nbr_order - 1]
-                move_lines = self.search(
-                    [
-                        ("move_id.picking_id.batch_id.id", "=", batch.id),
-                        ("location_dest_id.name", "=", "Packing Zone"),
-                        ("origin", "in", order_name_list),
-                    ]
-                )
-                move_lines.with_context(box_propagation=True).write(
-                    {"location_dest_id": values["location_dest_id"]}
-                )
-                _logger.info(
-                    "Box propagation for batch:{} box:{} and orders:{}".format(
-                        batch.name, values["location_dest_id"], order_name_list
-                    )
-                )
-
+            if self._get_nbr_so_in_box(values["location_dest_id"]) >= nbr_order:
+                raise UserError(_("Choose an other box"))
+        
         return super().write(values)
