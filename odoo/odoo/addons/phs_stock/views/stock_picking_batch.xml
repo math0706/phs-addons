@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 <!-- stock.picking.batch.rule tree view -->
 <record id="stock_picking_batch_rule_view_tree" model="ir.ui.view">
@@ -6,13 +6,18 @@
     <field name="model">stock.picking.batch.rule</field>
     <field name="arch" type="xml">
         <tree editable="top">
-            <field name="sequence" widget="handle"/>
-            <field name="name"/>
-            <field name="picking_type_id"/>
-            <field name="filter_id"/>
-            <field name="nbr_box"/>
-            <field name="nbr_order"/>
-            <button name="action_batch_creation" icon="fa-magic" type="object" string="Create batch"/>
+            <field name="sequence" widget="handle" />
+            <field name="name" />
+            <field name="picking_type_id" />
+            <field name="filter_id" />
+            <field name="nbr_box" />
+            <field name="nbr_order" />
+            <button
+                    name="action_batch_creation"
+                    icon="fa-magic"
+                    type="object"
+                    string="Create batch"
+                />
         </tree>
     </field>
 </record>
@@ -26,5 +31,11 @@
 </record>
 
 <!-- This Menu Item must have a parent and an action -->
-<menuitem id="stock_picking_batch_rule" name="Batch rules" parent="stock.menu_warehouse_config" action="stock_picking_batch_rule_action" sequence="50"/>
+<menuitem
+        id="stock_picking_batch_rule"
+        name="Batch rules"
+        parent="stock.menu_warehouse_config"
+        action="stock_picking_batch_rule_action"
+        sequence="50"
+    />
 </odoo>

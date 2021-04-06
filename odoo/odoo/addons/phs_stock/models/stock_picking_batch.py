@@ -1,7 +1,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from odoo import models, fields, _
+
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -26,7 +27,6 @@ class StockPickingBatchRule(models.Model):
     sequence = fields.Integer(default=5)
 
     def batch_creation(self):
-        ir_config = self.env["ir.config_parameter"]
         created_batch = self.env["stock.picking.batch"]
         pickings = self.env["stock.picking"]
         for batch_rule in self:
@@ -85,8 +85,7 @@ class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
     def _check_if_so_allready_in_box(self, location):
-        """ Check that the box allready contain a product of the same order
-        """
+        """Check that the box allready contain a product of the same order"""
         if len(
             self.env["stock.move.line"].search(
                 [
@@ -96,8 +95,9 @@ class StockMoveLine(models.Model):
                         "in",
                         ["draft", "in_progress"],
                     ),
-                    ("origin", "=", self.origin)
-                ], limit=1
+                    ("origin", "=", self.origin),
+                ],
+                limit=1,
             )
         ):
             return True
@@ -105,20 +105,20 @@ class StockMoveLine(models.Model):
             return False
 
     def _check_if_so_in_other_box(self, location):
-        """ Check that the box allready contain a product of the same order
-        """
+        """Check that the box allready contain a product of the same order"""
         move_line = self.env["stock.move.line"].search(
-                [
-                    ("location_dest_id.name", "!=", 'Packing Zone'),
-                    ("location_dest_id", "!=", location),
-                    (
-                        "move_id.picking_id.batch_id.state",
-                        "in",
-                        ["draft", "in_progress"],
-                    ),
-                    ("origin", "=", self.origin)
-                ], limit=1
-            )
+            [
+                ("location_dest_id.name", "!=", "Packing Zone"),
+                ("location_dest_id", "!=", location),
+                (
+                    "move_id.picking_id.batch_id.state",
+                    "in",
+                    ["draft", "in_progress"],
+                ),
+                ("origin", "=", self.origin),
+            ],
+            limit=1,
+        )
         if len(move_line):
             return move_line.location_dest_id
         else:
@@ -126,22 +126,27 @@ class StockMoveLine(models.Model):
 
     def _get_nbr_so_in_box(self, location):
         lines = self.env["stock.move.line"].search(
-                [
-                    ("location_dest_id", "=", location),
-                    (
-                        "move_id.picking_id.batch_id.state",
-                        "in",
-                        ["draft", "in_progress"],
-                    ),
-                ],
-            )
+            [
+                ("location_dest_id", "=", location),
+                (
+                    "move_id.picking_id.batch_id.state",
+                    "in",
+                    ["draft", "in_progress"],
+                ),
+            ],
+        )
         return len(list(set(lines.mapped("origin"))))
 
-
     def write(self, values):
-        
-        if len(self) == 1 and "location_dest_id" in values and not self._check_if_so_allready_in_box(values["location_dest_id"]):
-            last_scanned_box = self._check_if_so_in_other_box(values["location_dest_id"])
+
+        if (
+            len(self) == 1
+            and "location_dest_id" in values
+            and not self._check_if_so_allready_in_box(values["location_dest_id"])
+        ):
+            last_scanned_box = self._check_if_so_in_other_box(
+                values["location_dest_id"]
+            )
             if last_scanned_box and last_scanned_box.id != values["location_dest_id"]:
                 raise UserError(_(f"Scan the correct box - {last_scanned_box.name}"))
 
@@ -156,5 +161,5 @@ class StockMoveLine(models.Model):
                 )
             if self._get_nbr_so_in_box(values["location_dest_id"]) >= nbr_order:
                 raise UserError(_("Choose an other box"))
-        
+
         return super().write(values)
