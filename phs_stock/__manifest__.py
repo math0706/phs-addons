@@ -7,7 +7,7 @@
     "version": "14.0.1.0.0",
     "author": "Akretion",
     "license": "AGPL-3",
-    "website": "https://www.akretion.fr",
+    "website": "https://github.com/akretion/phs-addons",
     "depends": [
         # "stock",
         "stock_picking_batch",
