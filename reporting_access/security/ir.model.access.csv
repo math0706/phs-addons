@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sale_report_access,Sale report access,sale.model_sale_report,reporting_access_group,1,0,0,0
+stock_quant_report_access,stock.quant reporting access,stock.model_stock_quant,reporting_access_group,1,0,0,0
+stock_quant_history_report_access,stock.quant.history reporting access,stock.model_stock_quantity_history,reporting_access_group,1,1,1,0
+stock_quant_package_report_access,stock.quant.package reporting access,stock.model_stock_quant_package,reporting_access_group,1,0,0,0
