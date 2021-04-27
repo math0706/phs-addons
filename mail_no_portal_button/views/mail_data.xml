@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Disable sale inherit of mail notification -->
+    <record id="sale.mail_notification_paynow_online" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+    <!-- Remove view quotation button from Template and notification section -->
+    <template id="mail_notification_paynow" inherit_id="mail.mail_notification_paynow">
+        <xpath expr="//tr[2]//div[1]" position="replace" />
+    </template>
+</odoo>
