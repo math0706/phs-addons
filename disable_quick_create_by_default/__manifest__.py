@@ -11,10 +11,11 @@
     "author": "Pharmasimple",
     "license": "AGPL-3",
     "website": "https://github.com/akretion/phs-addons",
+    "post_init_hook": "post_init_hook",
     "depends": [
         "base_optional_quick_create",
     ],
-    "data": ["data/setup.xml"],
+    "data": [],
     "installable": True,
     "application": False,
 }
