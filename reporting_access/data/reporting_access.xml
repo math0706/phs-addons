@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Application -->
+    <record id="reporting_access_category" model="ir.module.category">
+        <field name="name">Reporting access</field>
+        <field name="description">Access to reporting menu.</field>
+    </record>
+</odoo>

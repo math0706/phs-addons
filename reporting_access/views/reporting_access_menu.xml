@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <record id="sale.menu_sale_report" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('reporting_access_group'))]" />
+    </record>
+    <record id="stock.menu_stock_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('reporting_access_group'))]" />
+    </record>
+    <record id="stock.menu_warehouse_report" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('reporting_access_group'))]" />
+    </record>
+    <!-- restrict access to inventory users only -->
+    <record id="stock.stock_picking_type_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('stock.group_stock_user'))]" />
+    </record>
+    <record id="stock.menu_stock_warehouse_mgmt" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('stock.group_stock_user'))]" />
+    </record>
+    <record id="stock.stock_move_line_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('stock.group_stock_user'))]" />
+    </record>
+    <!-- add access to reporting/inventory report -->
+    <record model="ir.actions.server" id="stock.action_view_quants">
+        <field name="groups_id" eval="[(4,ref('reporting_access_group'))]" />
+    </record>
+
+</odoo>
