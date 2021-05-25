@@ -20,11 +20,6 @@
                     name="attrs"
                 >{'required': [('company_type', '=', 'company')]}</attribute>
             </field>
-            <field name="state_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'required': [('company_type', '=', 'company')]}</attribute>
-            </field>
             <field name="zip" position="attributes">
                 <attribute
                     name="attrs"
