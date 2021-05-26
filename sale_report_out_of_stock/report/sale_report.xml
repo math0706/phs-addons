@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_saleorder_document_inherit"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <xpath expr="//td[@name='td_name']" position="replace">
+            <t t-foreach="stock_list" t-as="stock">
+                <t t-if="stock['name'] == line.product_id.name">
+                    <t t-if="stock['in_stock'] == True">
+                        <td name="td_name"><span t-field="line.name" /></td>
+                    </t>
+                    <t t-else="stock['in_stock'] == False">
+                        <td name="td_name" style="background-color: red">
+                            <span t-field="line.name" />
+                            <br>HORS STOCK</br>
+                        </td>
+                    </t>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>
