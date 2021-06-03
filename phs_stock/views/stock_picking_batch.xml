@@ -13,10 +13,10 @@
             <field name="nbr_box" />
             <field name="nbr_order" />
             <button
-                    name="action_batch_creation"
-                    icon="fa-magic"
-                    type="object"
-                    string="Create batch"
+                    name="%(phs_stock.action_batch_force_create)d"
+                    class="btn btn-primary o_list_button_add"
+                    type="action"
+                    string="Force Create"
                 />
         </tree>
     </field>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--  Change Product Quantity -->
+    <record id="view_batch_force_create_wizard" model="ir.ui.view">
+        <field name="name">Force Create</field>
+        <field name="model">batch.force.create</field>
+        <field name="arch" type="xml">
+            <form string="Force Create">
+                <group>
+                    <field name="force_create" />
+                </group>
+                <footer>
+                    <button
+                        name="confirm"
+                        string="Confirm"
+                        colspan="1"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_batch_force_create" model="ir.actions.act_window">
+        <field name="name">Force Create</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">batch.force.create</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

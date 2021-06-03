@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_stock_picking_batch_rule_manager,stock_picking_batch_rule_manager,model_stock_picking_batch_rule,stock.group_stock_manager,1,1,1,1
+access_batch_force_create_manager,batch_force_create_manager,model_batch_force_create,stock.group_stock_manager,1,1,1,1

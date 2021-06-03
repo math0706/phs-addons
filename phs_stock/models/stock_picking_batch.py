@@ -26,13 +26,14 @@ class StockPickingBatchRule(models.Model):
     picking_type_id = fields.Many2one(comodel_name="stock.picking.type")
     sequence = fields.Integer(default=5)
 
-    def batch_creation(self):
+    def batch_creation(self, force_create):
         created_batch = self.env["stock.picking.batch"]
         pickings = self.env["stock.picking"]
         for batch_rule in self:
             pre_filtered_domain = [
                 ("picking_type_id", "=", batch_rule.picking_type_id.id),
                 ("state", "=", "assigned"),
+                ("batch_id", "=", False),
             ]
             pickings = pickings.search(
                 pre_filtered_domain + safe_eval(batch_rule.filter_id.domain)
@@ -43,34 +44,40 @@ class StockPickingBatchRule(models.Model):
                 int(len(pickings) / nbr_order_in_a_batch) * nbr_order_in_a_batch,
                 nbr_order_in_a_batch,
             ):
-                new_batch = self.env["stock.picking.batch"].create(
-                    {
-                        "company_id": self.env.user.company_id.id,
-                        "batch_rule_id": batch_rule.id,
-                    }
-                )
+                new_batch = self.create_new_batch(batch_rule)
                 pickings[i : i + nbr_order_in_a_batch].write({"batch_id": new_batch.id})
                 created_batch += new_batch
+            if force_create:
+                rest_of_picking = pickings.filtered(
+                    lambda r: r.id not in created_batch.picking_ids.ids
+                )
+                if rest_of_picking:
+                    new_batch = self.create_new_batch(batch_rule)
+                    for picking in rest_of_picking:
+                        picking.write({"batch_id": new_batch.id})
+                    created_batch += new_batch
+        return created_batch.ids
 
-        return created_batch
-
-    def action_batch_creation(self):
-        batch = self.batch_creation()
-
-        return {
-            "name": _("Picking Batch"),
-            "view_mode": "tree,form",
-            "res_model": "stock.picking.batch",
-            "view_id": False,
-            "type": "ir.actions.act_window",
-            "domain": [("id", "in", batch.ids)],
-        }
+    def create_new_batch(self, batch_rule):
+        new_batch = self.env["stock.picking.batch"].create(
+            {
+                "company_id": self.env.user.company_id.id,
+                "batch_rule_id": batch_rule.id,
+            }
+        )
+        return new_batch
 
 
 class StockPickingBatch(models.Model):
     _inherit = "stock.picking.batch"
 
     batch_rule_id = fields.Many2one(comodel_name="stock.picking.batch.rule")
+
+    def action_cancel(self):
+        res = super().action_cancel()
+        for move_line in self.move_line_ids:
+            move_line.picking_id.write({"batch_id": False})
+        return res
 
 
 class StockPickingType(models.Model):
