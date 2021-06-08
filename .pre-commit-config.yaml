@@ -62,7 +62,8 @@ repos:
         args:
           - --color
           - --fix
-  - repo: https://github.com/pre-commit/pre-commit-hooks
+        exclude: shopfloor_*/*
+- repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
       - id: trailing-whitespace
