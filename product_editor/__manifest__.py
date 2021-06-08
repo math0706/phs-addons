@@ -12,7 +12,7 @@
     "author": "Pharmasimple",
     "license": "AGPL-3",
     "website": "https://github.com/akretion/phs-addons",
-    "depends": ["product"],
+    "depends": ["base", "product"],
     "data": [
         "security/product_security.xml",
         "security/ir.model.access.csv",
