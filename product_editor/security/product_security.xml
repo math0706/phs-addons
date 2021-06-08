@@ -2,6 +2,6 @@
 <odoo>
     <record id="group_product_editor_manager" model="res.groups">
         <field name="name">Product Editor Manager</field>
-        <field name="category_id" ref="base.module_category_product" />
+        <field name="category_id" ref="base.module_category_usability" />
     </record>
 </odoo>
