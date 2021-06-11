@@ -7,7 +7,7 @@ from odoo.addons.shopfloor_base.utils import ensure_model
 class DataAction(Component):
     _inherit = "shopfloor.data.action"
 
-    @ensure_model("product.barcodes")
+    @ensure_model("product.barcode")
     def barcodes(self, record, **kw):
         return self._jsonify(record, self._barcodes_parser, **kw)
 
