@@ -70,7 +70,7 @@ class TestStockPickingBatchRule(TransactionCase):
         force_create = True
         batch = self.rule.batch_creation(force_create)
 
-        self.assertEqual(len(batch), 3)
+        self.assertEqual(len(batch), 2)
 
     def test_create_batch_picking_no_force_create(self):
         """The rule matching with 6 out of 8 split in 2 batch of 3 orders
@@ -83,7 +83,7 @@ class TestStockPickingBatchRule(TransactionCase):
         force_create = False
         batch = self.rule.batch_creation(force_create)
 
-        self.assertEqual(len(batch), 2)
+        self.assertEqual(len(batch), 1)
 
     def test_cancel_batch(self):
         """when we cancel a batch, the field batch_id on picking must be set to False"""
