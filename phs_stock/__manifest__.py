@@ -12,7 +12,11 @@
         # "stock",
         "stock_picking_batch",
     ],
-    "data": ["views/stock_picking_batch.xml", "security/ir.model.access.csv"],
+    "data": [
+        "wizard/batch_force_create_view.xml",
+        "views/stock_picking_batch.xml",
+        "security/ir.model.access.csv",
+    ],
     "installable": True,
     "application": False,
 }
