@@ -42,64 +42,48 @@ class TestStockPickingBatchRule(TransactionCase):
         """One rule matching all picking (8) split in batch of 2 orders
         expected result: 4 batch
         """
+        batch_1 = self.env.ref("stock_picking_batch.stock_picking_batch_1")
+        batch_1.action_cancel()
+        batch_2 = self.env.ref("stock_picking_batch.stock_picking_batch_2")
+        batch_2.action_cancel()
         force_create = False
         batch = self.rule.batch_creation(force_create)
 
         pre_filtered_domain = [
             ("picking_type_id", "=", self.rule.picking_type_id.id),
             ("state", "=", "assigned"),
-            ("batch_id", "=", False),
         ]
         pickings = self.env["stock.picking"].search(
             pre_filtered_domain + safe_eval(self.rule.filter_id.domain)
         )
         self.assertEqual(len(batch), int(len(pickings) / 2))
 
-    # def test_create_batch_picking_force_create(self):
-    #     """The rule matching with 6 out of 8 split in 2 batch of 3 orders
-    #     and the rest in an other batch
-    #     expected result: 3 batch"""
-    #     batch_1 = self.env.ref("stock_picking_batch.stock_picking_batch_1")
-    #     batch_1.write({"state": "cancel"})
-    #     batch_2 = self.env.ref("stock_picking_batch.stock_picking_batch_2")
-    #     batch_2.write({"state": "cancel"})
-    #     self.env.ref("stock_picking_batch.Picking_A").write({"batch_id": False})
-    #     self.env.ref("stock_picking_batch.Picking_B").write({"batch_id": False})
-    #     self.env.ref("stock_picking_batch.Picking_C").write({"batch_id": False})
-    #     self.env.ref("stock_picking_batch.Picking_D").write({"batch_id": False})
-    #     self.rule.write({"nbr_box": 3})
-    #     force_create = True
-    # batch = self.rule.batch_creation(force_create)
+    def test_create_batch_picking_force_create(self):
+        """The rule matching with 6 out of 8 split in 2 batch of 3 orders
+        and the rest in an other batch
+        expected result: 3 batch"""
+        batch_1 = self.env.ref("stock_picking_batch.stock_picking_batch_1")
+        batch_1.action_cancel()
+        batch_2 = self.env.ref("stock_picking_batch.stock_picking_batch_2")
+        batch_2.action_cancel()
+        self.rule.write({"nbr_box": 3})
+        force_create = True
+        batch = self.rule.batch_creation(force_create)
 
-    # pre_filtered_domain = [
-    #     ("picking_type_id", "=", self.rule.picking_type_id.id),
-    #     ("state", "=", "assigned"),
-    #     ("batch_id", "=", False),
-    # ]
-    # pickings = self.env["stock.picking"].search(
-    #     pre_filtered_domain + safe_eval(self.rule.filter_id.domain)
-    # )
-    # self.assertEqual(len(batch), 3)
-    # self.assertEqual(len(self.env["stock.picking.batch"].browse(batch[0]).picking_ids), 3)
-    # self.assertEqual(len(self.env["stock.picking.batch"].browse(batch[1]).picking_ids), 3)
-    # self.assertEqual(len(self.env["stock.picking.batch"].browse(batch[2]).picking_ids), 2)
+        self.assertEqual(len(batch), 3)
 
-    # def test_create_batch_picking_no_force_create(self):
-    #     """The rule matching with 6 out of 8 split in 2 batch of 3 orders
-    #     expected result: 2 batch"""
-    #     self.rule.write({"nbr_box": 3})
-    #     force_create = False
-    # batch = self.rule.batch_creation(force_create)
+    def test_create_batch_picking_no_force_create(self):
+        """The rule matching with 6 out of 8 split in 2 batch of 3 orders
+        expected result: 2 batch"""
+        batch_1 = self.env.ref("stock_picking_batch.stock_picking_batch_1")
+        batch_1.action_cancel()
+        batch_2 = self.env.ref("stock_picking_batch.stock_picking_batch_2")
+        batch_2.action_cancel()
+        self.rule.write({"nbr_box": 3})
+        force_create = False
+        batch = self.rule.batch_creation(force_create)
 
-    # pre_filtered_domain = [
-    #     ("picking_type_id", "=", self.rule.picking_type_id.id),
-    #     ("state", "=", "assigned"),
-    #     ("batch_id", "=", False),
-    # ]
-    # pickings = self.env["stock.picking"].search(
-    #     pre_filtered_domain + safe_eval(self.rule.filter_id.domain)
-    # )
-    # self.assertEqual(len(batch), 2)
+        self.assertEqual(len(batch), 2)
 
     def test_cancel_batch(self):
         """when we cancel a batch, the field batch_id on picking must be set to False"""
