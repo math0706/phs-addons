@@ -1,0 +1,18 @@
+<odoo>
+    <record id="product_product_normal_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.normal.form.view.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    string="Import Product"
+                    type="action"
+                    groups="stock.group_stock_manager"
+                    name="%(import_product_wizard)d"
+                />
+            </header>
+        </field>
+    </record>
+
+</odoo>
