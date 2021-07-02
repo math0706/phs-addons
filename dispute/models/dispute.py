@@ -309,7 +309,10 @@ class DisputeLine(models.Model):
             for info in line_model_info:
                 if len(domain):
                     domain.append("|")
-                for dom in safe_eval(info.get("domain", [])):
+                for dom in safe_eval(
+                    info.get("domain", []),
+                    locals_dict={"dispute_model_ref_id": dispute_model_ref_id},
+                ):
                     domain.append(dom)
             fields["model_ref_id"]["domain"] = domain
 

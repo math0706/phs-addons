@@ -298,7 +298,11 @@
         <field name="view_mode">kanban,tree,form,activity</field>
     </record>
 
-    <menuitem id="dispute_root" name="Disputes" />
+    <menuitem
+        id="dispute_root"
+        name="Disputes"
+        web_icon="dispute,static/src/img/icon.png"
+    />
     <menuitem
         id="dispute"
         name="Disputes"
