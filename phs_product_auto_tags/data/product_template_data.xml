@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="tag_new" model="product.template.tag">
+        <field name="name">new</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+    <record id="tag_top_100_delivered" model="product.template.tag">
+        <field name="name">top100 delivered</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+    <record id="nbr_days_tag_new" model="ir.config_parameter">
+        <field name="key">nbr_days_tag_new</field>
+        <field name="value">15</field>
+    </record>
+</odoo>
