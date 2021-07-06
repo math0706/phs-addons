@@ -10,6 +10,9 @@
     "license": "AGPL-3",
     "website": "https://github.com/akretion/phs-addons",
     "depends": ["base", "product", "stock"],
+    "external_dependencies": {
+        "python": ["dictor"],
+    },
     "data": [
         "security/ir.model.access.csv",
         "views/product_product_view.xml",
