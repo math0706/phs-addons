@@ -60,12 +60,6 @@
         </field>
     </record>
 
-    <menuitem
-        id="import_product_menu"
-        parent="stock.menu_stock_inventory_control"
-        action="import_product_wizard"
-    />
-
     <record id="import_product_wizard" model="ir.actions.act_window">
         <field name="name">Import Product</field>
         <field name="res_model">import.product.wizard</field>
@@ -74,6 +68,12 @@
         <field name="binding_model_id" ref="product.model_product_product" />
         <field name="binding_view_types">list</field>
     </record>
+
+    <menuitem
+        id="import_product_menu"
+        parent="stock.menu_stock_inventory_control"
+        action="import_product_wizard"
+    />
 
 
 </odoo>
