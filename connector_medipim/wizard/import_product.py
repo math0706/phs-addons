@@ -208,11 +208,7 @@ class ImportProduct(models.TransientModel):
             )
             % name
         )
-        headers = {
-            "14": "21srH0nRcG9BjAtFxPZGcQk1RHCntN11i6f5ECEaEzt5Tsd09nnQYcX2rSpxYIwy",
-            "Authorization": "Basic MTQ6MjFzckgwblJjRzlCakF0RnhQWkdjUWsxUkhDbnROMTFpNmY1RUNFYUV6dDVUc2QwOW5uUVljWDJyU3B4WUl3eQ==",
-            "Content-Type": "application/json",
-        }
+        headers = self.env["ir.config_parameter"].sudo().get_param("config_medipim")
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
