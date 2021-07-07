@@ -82,8 +82,8 @@ class ImportProduct(models.TransientModel):
             for code in codes:
                 if not ok:
                     medipim_product = self.import_with_code(code)
-                    # if len(medipim_product.get('results')) == 1:
-                    # ok = True
+                    if len(medipim_product.get("results")) == 1:
+                        ok = True
             vat = self.env["account.tax"].search([("name", "=", "21%")])
             if medipim_product:
                 self.write(
@@ -208,7 +208,15 @@ class ImportProduct(models.TransientModel):
             )
             % name
         )
-        headers = self.env["ir.config_parameter"].sudo().get_param("config_medipim")
+
+        config_medipim = (
+            self.env["ir.config_parameter"].sudo().get_param("config_medipim")
+        )
+        headers = {
+            "14": safe_eval(config_medipim)[0],
+            "Authorization": safe_eval(config_medipim)[1],
+            "Content-Type": "application/json",
+        }
 
         response = requests.request("POST", url, headers=headers, data=payload)
 
