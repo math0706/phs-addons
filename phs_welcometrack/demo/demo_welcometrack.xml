@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo noupdate="1">
+    <record id="welcometrack_product_1" model="product.product">
+        <field name="name">Welcometrack</field>
+        <field name="type">service</field>
+    </record>
+
+    <record id="welcometrack_sender_1" model="res.partner">
+        <field name="name">Pharmasimple</field>
+        <field name="city">Houdeng-Goegnies</field>
+        <field name="zip">7110</field>
+        <field name="street">Boulevard Millénium 11</field>
+        <field name="country_id" ref="base.be" />
+
+
+    </record>
+
+    <record id="welcometrack_account_1" model="carrier.account">
+        <field name="name">Welcometrack</field>
+        <field name="wt_carrierid">3</field>
+        <field name="wt_providerservice_code">01</field>
+        <field name="account">19869502</field>
+        <field name="password">255562</field>
+        <field name="file_format">PDF</field>
+        <field name="delivery_type">fixed</field>
+    </record>
+    <record id="welcometrack_carrier_1" model="delivery.carrier">
+        <field name="name">Welcometrack</field>
+        <field name="delivery_type">fixed</field>
+        <field name="is_welcometrack" eval="True" />
+        <field name="carrier_account_id" ref="welcometrack_account_1" />
+        <field name="product_id" ref="welcometrack_product_1" />
+        <field name="sender_id" ref="welcometrack_sender_1" />
+    </record>
+</odoo>

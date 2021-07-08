@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="debug_delivery_label_view_form" model="ir.ui.view">
+        <field name="name">debug.delivery.label.view.form</field>
+        <field name="model">debug.delivery.label</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="picking_id" />
+                    <field name="carrier_id" />
+                    <field name="substitution_carrier_id" />
+                    <field name="name" />
+                    <field name="street" />
+                    <field name="street2" />
+                    <field name="zip" />
+                    <field name="city" />
+                    <field name="state_id" />
+                    <field name="country_id" />
+                    <field name="email" />
+                    <field name="phone" />
+                    <field name="mobile" />
+                </group>
+                <group string="Payload-test" groups="base.group_no_one">
+                    <field name="payload" nolabel="1" colspan="2" />
+                </group>
+                <group string="Error Message">
+                    <field name="error" invisible="1" />
+                    <field name="message" nolabel="1" colspan="2" />
+                </group>
+                <footer>
+                    <button name="action_check_label" type="object" string="Check" />
+                    <button
+                        name="action_print_label"
+                        type="object"
+                        string="Print"
+                        attrs="{'invisible': [('error', '=', True)]}"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- debug.delivery.label action window -->
+    <record id="debug_delivery_label_action" model="ir.actions.act_window">
+        <field name="name">debug.delivery.label.action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">debug.delivery.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

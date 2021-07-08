@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="stock_picking_label_error" model="ir.ui.view">
+        <field name="name">stock.picking.view.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <button
+                    name="action_check_shipping_labels"
+                    type="object"
+                    string="Check Shipping Label"
+                    attrs="{'invisible': [('label_checked', '=', True)]}"
+                />
+                <button
+                    name="action_debug_delivery_label"
+                    type="object"
+                    string="Debug Shipping Label"
+                    attrs="{'invisible': [('label_checked', '=', True), ('label_error', '=', False),]}"
+                />
+            </field>
+            <field name="carrier_id" position="before">
+                <field name="label_checked" />
+                <field name="label_error" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search" model="ir.ui.view">
+        <field name="name">stock.picking.internal.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <filter name="cancel" position="after">
+                <filter
+                    name="Label Error"
+                    string="Label Error"
+                    domain="[('label_checked', '=', True), ('label_error', '=', True)]"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <!-- shipping.label.error.log tree view -->
+    <record id="shipping_error_log_view_tree" model="ir.ui.view">
+        <field name="name">shipping.label.error.log.view.tree</field>
+        <field name="model">shipping.label.error.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="picking_id" />
+                <field name="log_type" />
+                <field name="message" />
+                <field name="address_diff" />
+            </tree>
+        </field>
+    </record>
+    <!-- shipping.label.error.log action window -->
+    <record id="shipping_label_log_form_action" model="ir.actions.act_window">
+        <field name="name">Shipping label error log</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shipping.label.error.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="shipping_label_logs"
+        name="Shipping label logs"
+        sequence="99"
+        parent="stock.menu_warehouse_report"
+        groups="stock.group_stock_manager"
+        action="shipping_label_log_form_action"
+    />
+
+</odoo>

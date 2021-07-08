@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="carrier_account_view_form" model="ir.ui.view">
+        <field name="name">carrier.account.inherit.view.form</field>
+        <field name="model">carrier.account</field>
+        <field
+            name="inherit_id"
+            ref="base_delivery_carrier_label.carrier_account_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="account" position="before">
+                <field name="wt_carrierid" />
+                <field name="wt_providerservice_code" />
+                <field name="api_url" />
+                <field name="api_key" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_delivery_carrier_form" model="ir.ui.view">
+        <field name="name">delivery.carrier.inherit.view.form</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="is_welcometrack" />
+                <field name="carrier_account_id" />
+                <field name="sender_id" />
+            </field>
+        </field>
+    </record>
+</odoo>
