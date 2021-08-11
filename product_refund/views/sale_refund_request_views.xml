@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_refund_request_view_tree" model="ir.ui.view">
+        <field name="name">sale.refund.request.view.tree</field>
+        <field name="model">sale.refund.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="backorder_id"/>
+                <field name="so_id"/>
+                <field name="notes"/>
+                <field name="product_ids"/>
+                <field name="total_amount"/>
+                <field name="invoice_id"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sale_refund_request_view_form" model="ir.ui.view">
+        <field name="name">sale.refund.request.view.form</field>
+        <field name="model">sale.refund.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="backorder_id"/>
+                    <field name="so_id"/>
+                    <field name="notes"/>
+                </group>
+                <group>
+                    <field name="product_ids">
+                        <tree>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="unit_price"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="total_amount"/>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_refund_request_action" model="ir.actions.act_window">
+        <field name="name">Refund Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.refund.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="sale_refund_request"
+        name="Refund Request"
+        parent="sale.sale_order_menu"
+        action="sale_refund_request_action"
+        sequence="10"
+    />
+</odoo>

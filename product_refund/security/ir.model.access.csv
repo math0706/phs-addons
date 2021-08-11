@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_refund_request_manager,sale_refund_request_manager,model_sale_refund_request,stock.group_stock_manager,1,1,1,1
+access_sale_refund_product,sale_refund_product_manager,model_sale_refund_product,stock.group_stock_manager,1,1,1,1

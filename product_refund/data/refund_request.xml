@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="refund_request_seq" model="ir.sequence">
+        <field name="name">Refund Request sequence</field>
+        <field name="code">refund</field>
+        <field name="prefix">REFUND/</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="5" name="padding" />
+        <field eval="False" name="company_id" />
+    </record>
+</odoo>
