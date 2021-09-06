@@ -113,9 +113,9 @@ class StockPicking(models.Model):
             sender_carrier = carrier
         else:
             sender_carrier = self.carrier_id
-            wt_providerservice_code = (
-                sender_carrier.carrier_account_id.wt_providerservice_code
-            )
+        wt_providerservice_code = (
+            sender_carrier.carrier_account_id.wt_providerservice_code
+        )
         carrier_login = {
             "carrierid": sender_carrier.carrier_account_id.wt_carrierid,
             "ProviderService_Code": wt_providerservice_code,
@@ -204,14 +204,22 @@ class StockPicking(models.Model):
         for picking in self:
             picking.check_shipping_labels()
 
-    def generate_shipping_labels(self, check=False, address=None, carrier=None):
+    def send_to_shipper(self, check=False, address=None, carrier=None):
         _logger.debug("Generate shipping_labels for picking {}", (self.name))
         if self.carrier_id.is_welcometrack:
+            res = self.carrier_id.welcometrack_send_shipping(self)
             labels = self._generate_shipping_labels(check, address, carrier)
             if labels["error_message"]:
                 self.label_checked = True
                 self.label_error = True
                 self.label_error_message = labels["error_message"]
-            return labels["labels"]
+            result = []
+            for res, label in zip(res, labels["labels"]):
+                res["labels"] = [label]
+                result.append(res)
+            for result_dict, picking in zip(result, self):
+                for label in result_dict.get("labels", []):
+                    picking.attach_shipping_label(label)
+            return result
         else:
             return super().generate_shipping_labels()

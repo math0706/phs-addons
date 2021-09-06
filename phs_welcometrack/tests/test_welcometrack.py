@@ -32,7 +32,7 @@ class TestWelcomeTrack(TransactionCase):
         }
         self.ref_payload_order = {
             "Order_Amount": self.so.amount_total,
-            "Order_Channel": self.so.sale_channel_id or "",
+            "Order_Channel": self.so.sale_channel_id.id or "",
             "Order_DeliveryFees": 0,
             "Order_Reference": self.so.name,
             "Order_Store": "????",
@@ -96,7 +96,7 @@ class TestWelcomeTrack(TransactionCase):
 
         self.assertEqual(package, self.ref_payload_package)
 
-    def test_generate_shipping_labels(self):
-        label = self.so.picking_ids.generate_shipping_labels()
+    def test_send_to_shipper(self):
+        label = self.so.picking_ids.send_to_shipper()
 
         self.assertEqual(label, [])

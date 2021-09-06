@@ -8,10 +8,7 @@
     "category": "specific_industry_applications",
     "version": "14.0.1.0.0",
     # any module necessary for this one to work correctly
-    "depends": [
-        "base",
-        "base_delivery_carrier_label",
-    ],
+    "depends": ["base", "base_delivery_carrier_label", "sale_channel"],
     # always loaded
     "data": [
         "data/cron.xml",

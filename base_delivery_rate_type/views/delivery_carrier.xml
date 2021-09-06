@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!-- delivery.carrier inherit form view -->
+<record id="view_delivery_carrier_form" model="ir.ui.view">
+    <field name="name">delivery.carrier.inherit.view.form</field>
+    <field name="model">delivery.carrier</field>
+    <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+    <field name="arch" type="xml">
+        <field name="delivery_type" position="after">
+            <field
+                    name="rate_type"
+                    attrs="{'invisible':[('delivery_type', 'in', ['fixed', 'base_on_rule'])]}"
+                />
+        </field>
+        <!-- page visibility -->
+        <xpath expr="//field[@name='fixed_price']/../../.." position="attributes">
+            <attribute name="attrs">
+                {'invisible': ['&amp;', ('delivery_type', '!=', 'base_on_rule'), '&amp;', ('delivery_type', '!=', 'fixed'), '&amp;', '|', ('delivery_type', '!=', 'welcometrack'), ('rate_type', '!=', 'fixed'), '|', ('delivery_type', '!=', 'welcometrack'), ('rate_type', '!=', 'base_on_rule')]}
+            </attribute>
+        </xpath>
+        <!-- group fixed price visibility -->
+        <xpath expr="//field[@name='fixed_price']/../.." position="attributes">
+            <attribute name="attrs">
+                {'invisible': ['&amp;', ('delivery_type', '!=', 'fixed'), '|', ('delivery_type', '!=', 'welcometrack'), ('rate_type', '!=', 'fixed')]}
+            </attribute>
+        </xpath>
+        <!-- group base_on_rule price visibility -->
+        <group name="general" position="attributes">
+            <attribute name="attrs">
+                {'invisible': ['&amp;', ('delivery_type', '!=', 'base_on_rule'), '|', ('delivery_type', '!=', 'welcometrack'), ('rate_type', '!=', 'base_on_rule')]}
+            </attribute>
+        </group>
+    </field>
+</record>
+</odoo>

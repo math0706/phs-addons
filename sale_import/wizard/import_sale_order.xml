@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="import_sale_order_form" model="ir.ui.view">
+            <field name="name">import.sale.order.form</field>
+            <field name="model">import.sale.order</field>
+            <field name="arch" type="xml">
+                <form string="Sales order importation">
+                    <!-- <label
+                            string="First line must be header. First column must be CNK and second column must be quantity."/> -->
+                    <group>
+                        <field name="partner_id" string="Customer" required="1" />
+                        <field name="file" filename="filename" />
+                        <field name="filename" invisible="1" />
+                    </group>
+                    <footer>
+                        <button
+                            name="make"
+                            string="Imports sales orders"
+                            type="object"
+                            class="oe_highlight"
+                        />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_import_sale_order" model="ir.actions.act_window">
+            <field name="name">Import sale order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.sale.order</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem
+            parent="sale.sale_menu_root"
+            name="Import sale order"
+            id="menu_import_sale_order"
+            action="action_import_sale_order"
+            sequence="70"
+        />
+
+    </data>
+</openerp>

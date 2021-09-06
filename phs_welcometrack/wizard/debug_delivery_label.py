@@ -1,3 +1,5 @@
+import json
+
 from odoo import api, fields, models
 
 
@@ -68,8 +70,8 @@ class DebugDeliveryLabel(models.TransientModel):
         labels = self.picking_id._generate_shipping_labels(
             check, self, self.substitution_carrier_id
         )
-        self.payload = labels["payload"]
-        self.message = labels["error_message"]
+        self.payload = json.dumps(labels["payload"], sort_keys=False, indent=2)
+        self.message = json.dumps(labels["error_message"], sort_keys=False, indent=2)
         if labels["error_message"] is not None:
             self.error = True
         else:
@@ -122,6 +124,6 @@ class DebugDeliveryLabel(models.TransientModel):
         if self.picking_id.carrier_id.id != self.substitution_carrier_id.id:
             self.picking_id.carrier_id = self.substitution_carrier_id.id
 
-        self.picking_id.action_generate_carrier_label()
+        self.picking_id.send_to_shipper()
 
         return {"type": "ir.actions.act_window_close"}

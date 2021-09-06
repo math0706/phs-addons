@@ -13,6 +13,19 @@ class CarrierAccount(models.Model):
 class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
-    is_welcometrack = fields.Boolean()
+    delivery_type = fields.Selection(
+        selection_add=[
+            ("welcometrack", "Welcometrack"),
+        ],
+        ondelete={
+            "welcometrack": lambda recs: recs.write(
+                {
+                    "delivery_type": "fixed",
+                    "fixed_price": 0,
+                }
+            )
+        },
+    )
+    is_welcometrack = fields.Boolean(default=False)
     carrier_account_id = fields.Many2one(comodel_name="carrier.account")
     sender_id = fields.Many2one(comodel_name="res.partner")
