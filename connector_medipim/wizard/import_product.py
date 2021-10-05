@@ -77,13 +77,14 @@ class ImportProduct(models.TransientModel):
 
     def import_new_product(self):
         if not self.product_id:
-            codes = [self.ean, self.cnk]
+            # codes = [self.ean, self.cnk]
+            codes = self.cnk
             ok = False
-            for code in codes:
-                if not ok:
-                    medipim_product = self.import_with_code(code)
-                    if len(medipim_product.get("results")) == 1:
-                        ok = True
+            # for code in codes:
+                # if not ok:
+            medipim_product = self.import_with_code(self.cnk)
+                    # if len(medipim_product.get("results")) == 1:
+                        # ok = True
             vat = self.env["account.tax"].search([("name", "=", "21%")])
             if medipim_product:
                 self.write(
@@ -91,10 +92,10 @@ class ImportProduct(models.TransientModel):
                         "name_fr": dictor(medipim_product, "results.0.name.fr"),
                         "ean": dictor(medipim_product, "results.0.ean"),
                         "cnk": dictor(medipim_product, "results.0.cnk"),
-                        "public_price": dictor(medipim_product, "results.0.publicPrice")
+                        "public_price": dictor(medipim_product, "results.0.publicPrice", default=0)
                         / 100,
                         "vat": vat.id,
-                        "weight": dictor(medipim_product, "results.0.weight") / 1000,
+                        "weight": dictor(medipim_product, "results.0.weight", default=0) / 1000,
                     }
                 )
 
@@ -209,17 +210,15 @@ class ImportProduct(models.TransientModel):
             % name
         )
 
-        config_medipim = (
-            self.env["ir.config_parameter"].sudo().get_param("config_medipim")
-        )
+        config_medipim = self.env["ir.config_parameter"].sudo().get_param("config_medipim")
         headers = {
-            "14": safe_eval(config_medipim)[0],
-            "Authorization": safe_eval(config_medipim)[1],
+            "14": safe_eval(config_medipim)["14"],
+            "Authorization": safe_eval(config_medipim)["Authorization"],
             "Content-Type": "application/json",
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-
+        print(response)
         return response
 
     def update_all(self):

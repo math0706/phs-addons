@@ -9,7 +9,7 @@
     "author": "Pharmasimple",
     "license": "AGPL-3",
     "website": "https://github.com/akretion/phs-addons",
-    "depends": ["base", "product", "stock"],
+    "depends": ["base", "product", "stock", "account", "product_multi_barcode"],
     "external_dependencies": {
         "python": ["dictor"],
     },
