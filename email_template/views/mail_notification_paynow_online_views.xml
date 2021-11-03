@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="inherit_mail_notification_paynow"
+        inherit_id="sale.mail_notification_paynow_online"
+        name="inherit_mail_notification_paynow"
+    >
+        <xpath
+            expr="//t[@t-raw='message.body']/following-sibling::t"
+            position="replace"
+        />
+    </template>
+</odoo>
