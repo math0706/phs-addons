@@ -2,11 +2,15 @@
 <odoo>
     <template
         id="inherit_mail_notification_paynow"
-        inherit_id="sale.mail_notification_paynow_online"
+        inherit_id="mail.mail_notification_paynow"
         name="inherit_mail_notification_paynow"
     >
         <xpath
             expr="//t[@t-raw='message.body']/following-sibling::t"
+            position="replace"
+        />
+        <xpath
+            expr="//table/tr/td/table/tbody/tr/td/table/tr/td[2]"
             position="replace"
         />
     </template>
