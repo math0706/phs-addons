@@ -115,7 +115,11 @@ class StockMoveLine(models.Model):
         """Check that the box allready contain a product of the same order"""
         move_line = self.env["stock.move.line"].search(
             [
-                ("location_dest_id.name", "!=", "Packing Zone"),
+                (
+                    "location_dest_id.name",
+                    "!=",
+                    self.move_id.picking_type_id.default_location_dest_id.id,
+                ),
                 ("location_dest_id", "!=", location),
                 (
                     "move_id.picking_id.batch_id.state",
