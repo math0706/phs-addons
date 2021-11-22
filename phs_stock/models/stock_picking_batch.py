@@ -116,7 +116,7 @@ class StockMoveLine(models.Model):
         move_line = self.env["stock.move.line"].search(
             [
                 (
-                    "location_dest_id.name",
+                    "location_dest_id.id",
                     "!=",
                     self.move_id.picking_type_id.default_location_dest_id.id,
                 ),
