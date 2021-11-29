@@ -4,7 +4,11 @@ from odoo import _, fields, models
 class BatchForceCreate(models.TransientModel):
     _name = "batch.force.create"
 
-    force_create = fields.Boolean(default=False)
+    force_create = fields.Boolean(
+        default=False,
+        string="create incomplete batch",
+        help="Check this box if you want to create an incomplete batch",
+    )
 
     def confirm(self):
         picking_batch_rule_id = self.env["stock.picking.batch.rule"].browse(

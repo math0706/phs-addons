@@ -2,17 +2,17 @@
 <odoo>
     <!--  Change Product Quantity -->
     <record id="view_batch_force_create_wizard" model="ir.ui.view">
-        <field name="name">Force Create</field>
+        <field name="name">Create Batch</field>
         <field name="model">batch.force.create</field>
         <field name="arch" type="xml">
-            <form string="Force Create">
+            <form string="Create Batch">
                 <group>
                     <field name="force_create" />
                 </group>
                 <footer>
                     <button
                         name="confirm"
-                        string="Confirm"
+                        string="Create"
                         colspan="1"
                         type="object"
                         class="btn-primary"
@@ -24,7 +24,7 @@
     </record>
 
     <record id="action_batch_force_create" model="ir.actions.act_window">
-        <field name="name">Force Create</field>
+        <field name="name">Create Batch</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">batch.force.create</field>
         <field name="view_mode">form</field>
