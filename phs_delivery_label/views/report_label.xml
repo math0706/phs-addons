@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp noupdate="0">
+    <template id="report_pharmasimple_label">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                    <div
+                    class="article"
+                    t-att-data-oe-model="o and o._name"
+                    t-att-data-oe-id="o and o.id"
+                    t-att-data-oe-lang="o and o.env.context.get('lang')"
+                >
+                        <style>
+                            .page {
+                                font-family: Arial,sans-serif;
+                                padding: 10px;
+                            }
+                            .row {
+                                border-bottom: 1px solid #000;
+                                padding: 20px 10px;
+                            }
+                            .address-block  {
+                                width: 100%;
+                                padding: 0 10px;
+                            }
+                            .address-block tr {
+                                height: 24px;
+                            }
+                            .address-block th {
+                                text-align: right;
+                            }
+                            /*.address-block.destination .corner-tl {
+                                border: 1px solid #000;
+                                border-width: 1px 0 0 1px;
+                            }
+                            .address-block.destination tr:last-of-type > :first-child {
+                                border: 1px solid #000;
+                                border-width: 0 0 1px 1px;
+                            }
+                            .address-block.destination tr:first-of-type > :last-child {
+                                border: 1px solid #000;
+                                border-width: 1px 1px 0 0;
+                            }
+                            .address-block.destination tr:last-of-type > :last-child {
+                                border: 1px solid #000;
+                                border-width: 0 1px 1px 0;
+                            }*/
+                            .reference {
+                                text-align: center;
+                            }
+                            img {
+                                filter: grayscale(100%);
+                            }
+                        </style>
+                        <div class="row">
+                            <img
+                            t-if="res_company.logo"
+                            t-att-src="'data:image/png;base64,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'"
+                            height="48"
+                        />
+                        </div>
+                        <div class="row">
+                            <table class="address-block">
+                                <tr>
+                                    <th width="54">From :</th>
+                                    <td rowspan="3">
+                                    <div
+                                        t-field="res_company.partner_id"
+                                        t-field-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
+                                    />
+                                    </td>
+                                    <td width="54" />
+                                </tr>
+                                <tr>
+                                    <td />
+                                </tr>
+                                <tr>
+                                    <td />
+                                    <td />
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <table class="address-block destination" border="0">
+                                <tr>
+                                    <th width="54" class="corner-tl">To :</th>
+                                    <td rowspan="3" border="0">
+                                        <div
+                                        t-field="o.move_lines[0].partner_id"
+                                        t-field-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
+                                    />
+                                    </td>
+                                    <td width="54" />
+                                </tr>
+                                <tr>
+                                    <!-- <td t-field="o.sale_id" /> -->
+                                </tr>
+                                <tr>
+                                    <td />
+                                    <td />
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <!-- <h6 class="reference">Reference : <div  t-field="o.sale_id"></div></h6>
+                            <h6 class="reference">Reference int: <div  t-field="o.sale_id.prestashop_order_id"></div></h6> -->
+                        </div>
+                    </div>
+            </t>
+        </t>
+    </template>
+</openerp>
