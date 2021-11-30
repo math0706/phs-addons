@@ -29,6 +29,10 @@
                     <field name="result" />
                     <field name="product_id" invisible="1" />
                     <group attrs="{'invisible': [('product_id', '!=', False)]}">
+                        <field name="code_type" />
+                    </group>
+                </group>
+                <group attrs="{'invisible': [('code_type', '=', False)]}">
                         <field name="ean" />
                         <field name="cnk" />
                         <field name="name_fr" />
@@ -36,7 +40,6 @@
                         <field name="vat" />
                         <field name="weight" />
                     </group>
-                </group>
                 <group attrs="{'invisible': [('product_id', '=', False)]}">
                     <field name="import_field_ids">
                         <tree edit="true" create="false" editable="top">
