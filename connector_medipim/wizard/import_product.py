@@ -53,7 +53,8 @@ class ImportProduct(models.TransientModel):
             if not self.import_field_ids:
                 result = []
                 list_barcodes = product_id.barcode_ids.mapped("name")
-                list_barcodes.remove(product_id.default_code)
+                if product_id.default_code in list_barcodes:
+                    list_barcodes.remove(product_id.default_code)
                 list_code_type = ["cnk", "ean"]
                 for code in list_barcodes:
                     for code_type in list_code_type:
@@ -85,7 +86,7 @@ class ImportProduct(models.TransientModel):
                         )
                     ]
                 else:
-                    self.write({"result": "Pas de produits trouvé avec ces codes"})
+                    res["result"] = "Pas de produits trouvé avec ces codes"
 
         return res
 

@@ -20,7 +20,7 @@
                     />
                     <button
                         name="import_new_product"
-                        string="Import product"
+                        string="Import Medipim"
                         type="object"
                         class="oe_highlight"
                     />
@@ -64,7 +64,7 @@
     </record>
 
     <record id="import_product_wizard" model="ir.actions.act_window">
-        <field name="name">Import Product</field>
+        <field name="name">Import Medipim</field>
         <field name="res_model">import.product.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>

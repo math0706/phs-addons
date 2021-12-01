@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <header position="inside">
                 <button
-                    string="Import Product"
+                    string="Import Medipim"
                     type="action"
                     groups="stock.group_stock_manager"
                     name="%(import_product_wizard)d"
