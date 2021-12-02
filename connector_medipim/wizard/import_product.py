@@ -35,6 +35,7 @@ class ImportProduct(models.TransientModel):
     )
     cnk = fields.Char(string="CNK")
     ean = fields.Char(string="EAN")
+    link_url = fields.Char(string="Link URL", readonly=True)
     product_id = fields.Many2one("product.template")
     name_fr = fields.Char()
     public_price = fields.Float()
@@ -96,8 +97,16 @@ class ImportProduct(models.TransientModel):
             code = self.ean if self.code_type == "ean" else self.cnk
             medipim_product = self.import_with_code(code, code_type)
 
-            vat = self.env["account.tax"].search([("name", "=", "21%")])
             if medipim_product:
+                vat = self.env["account.tax"].search(
+                    [
+                        (
+                            "name",
+                            "=",
+                            "{}%".format(dictor(medipim_product, "results.0.vat")),
+                        )
+                    ]
+                )
                 self.write(
                     {
                         "name_fr": dictor(medipim_product, "results.0.name.fr"),
@@ -110,6 +119,7 @@ class ImportProduct(models.TransientModel):
                         "vat": vat.id,
                         "weight": dictor(medipim_product, "results.0.weight", default=0)
                         / 1000,
+                        "link_url": dictor(medipim_product, "results.0.meta.embedUrl"),
                     }
                 )
 
@@ -232,7 +242,6 @@ class ImportProduct(models.TransientModel):
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        print(response)
         return response
 
     def update_all(self):
@@ -255,6 +264,62 @@ class ImportProduct(models.TransientModel):
     def update_none(self):
         for field in self.import_field_ids:
             field.update_field = False
+
+        return {
+            "name": "Import Product",
+            "view_mode": "form",
+            "view_id": False,
+            "res_model": self._name,
+            "domain": [],
+            "context": dict(
+                self._context, active_ids=self.env.context.get("active_ids")
+            ),
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_id": self.id,
+        }
+
+    def reset_form(self):
+        self.write(
+            {
+                "result": "",
+                "code_type": "",
+                "cnk": "",
+                "ean": "",
+                "name_fr": "",
+                "public_price": 0,
+                "weight": 0,
+                "link_url": "",
+            }
+        )
+
+        return {
+            "name": "Import Product",
+            "view_mode": "form",
+            "view_id": False,
+            "res_model": self._name,
+            "domain": [],
+            "context": dict(
+                self._context, active_ids=self.env.context.get("active_ids")
+            ),
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_id": self.id,
+        }
+
+    @api.onchange("code_type")
+    def onchange_code_type(self):
+        self.write(
+            {
+                "result": "",
+                "cnk": "",
+                "ean": "",
+                "name_fr": "",
+                "public_price": 0,
+                "weight": 0,
+                "link_url": "",
+            }
+        )
 
         return {
             "name": "Import Product",

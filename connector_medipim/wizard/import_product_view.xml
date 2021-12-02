@@ -11,12 +11,14 @@
                         string="Update All"
                         type="object"
                         class="oe_highlight"
+                        attrs="{'invisible': [('product_id', '=', False)]}"
                     />
                     <button
                         name="update_none"
                         string="Update None"
                         type="object"
                         class="oe_highlight"
+                        attrs="{'invisible': [('product_id', '=', False)]}"
                     />
                     <button
                         name="import_new_product"
@@ -24,9 +26,15 @@
                         type="object"
                         class="oe_highlight"
                     />
+                    <button
+                        name="reset_form"
+                        string="Reset Form"
+                        type="object"
+                        class="oe_highlight"
+                    />
                 </header>
                 <group>
-                    <field name="result" />
+
                     <field name="product_id" invisible="1" />
                     <group attrs="{'invisible': [('product_id', '!=', False)]}">
                         <field name="code_type" />
@@ -35,10 +43,16 @@
                 <group attrs="{'invisible': [('code_type', '=', False)]}">
                         <field name="ean" />
                         <field name="cnk" />
+                </group>
+                <group
+                    attrs="{'invisible': [('code_type', '=', False), ('result', '=', False)]}"
+                >
+                        <field name="result" />
                         <field name="name_fr" />
                         <field name="public_price" />
                         <field name="vat" />
                         <field name="weight" />
+                        <field name="link_url" widget="url" />
                     </group>
                 <group attrs="{'invisible': [('product_id', '=', False)]}">
                     <field name="import_field_ids">
