@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 class StockPickingBatchRule(models.Model):
     _name = "stock.picking.batch.rule"
     _description = "Rules to create picking batch"
+    _order = "sequence,id"
 
     @api.depends("filter_id", "nbr_box", "nbr_order")
     def _compute_nbr_batch(self):
@@ -89,6 +90,12 @@ class StockPickingBatchRule(models.Model):
             }
         )
         return new_batch
+
+    def get_a_new_batch(self):
+        for record in self:
+            if record.nbr_batch > 0:
+                record.batch_creation(False, 1)
+                break
 
 
 class StockPickingBatch(models.Model):
