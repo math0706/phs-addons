@@ -12,6 +12,7 @@
             <field name="filter_id" />
             <field name="nbr_box" />
             <field name="nbr_order" />
+            <field name="nbr_batch" />
             <button
                     name="%(phs_stock.action_batch_force_create)d"
                     class="btn btn-primary o_list_button_add"

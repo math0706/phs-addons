@@ -16,6 +16,18 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: phs_stock
+#: model:ir.model.fields,help:phs_stock.field_product_product__type
+#: model:ir.model.fields,help:phs_stock.field_product_template__type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Un produit stockable est un produit pour lequel vous gérez le stock. L'application Inventory doit être installée.\n"
+"Un produit consommable est un produit pour lequel le stock n'est pas géré.\n"
+"Un service est un produit immatériel que vous fournissez."
+
+#. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__batch_rule_id
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type__batch_rule_ids
 msgid "Batch Rule"
@@ -44,7 +56,12 @@ msgstr "Annuler"
 #. module: phs_stock
 #: model:ir.model.fields,help:phs_stock.field_batch_force_create__force_create
 msgid "Check this box if you want to create an incomplete batch"
-msgstr "Cochez cette case si vous souhaitez créer une vague incomplète"
+msgstr "Cochez cette boîte si vous voulez créer des vagues incomplète"
+
+#. module: phs_stock
+#: model:ir.model.fields,help:phs_stock.field_batch_force_create__nbr_batch
+msgid "Complete the number of batch that you want to create"
+msgstr "Completez le nombre de vagues que vous voulez créer"
 
 #. module: phs_stock
 #: model_terms:ir.ui.view,arch_db:phs_stock.view_batch_force_create_wizard
@@ -76,6 +93,7 @@ msgstr "Créé sur"
 
 #. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__display_name
 #: model:ir.model.fields,field_description:phs_stock.field_stock_move_line__display_name
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__display_name
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__display_name
@@ -90,6 +108,7 @@ msgstr "Filtre"
 
 #. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__id
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__id
 #: model:ir.model.fields,field_description:phs_stock.field_stock_move_line__id
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__id
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__id
@@ -99,6 +118,7 @@ msgstr "ID"
 
 #. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_batch_force_create____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_product_template____last_update
 #: model:ir.model.fields,field_description:phs_stock.field_stock_move_line____last_update
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch____last_update
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule____last_update
@@ -134,6 +154,16 @@ msgid "Nbr Order"
 msgstr "Nbr de commande"
 
 #. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__nbr_batch
+msgid "Number of batch to create"
+msgstr "Nombre de vagues à créer"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__nbr_batch
+msgid "Number of complete batch"
+msgstr "Nombre de vague complète"
+
+#. module: phs_stock
 #: code:addons/phs_stock/wizard/batch_force_create.py:0
 #, python-format
 msgid "Picking Batch"
@@ -148,7 +178,18 @@ msgstr "Type de préparation"
 #. module: phs_stock
 #: model:ir.model,name:phs_stock.model_stock_move_line
 msgid "Product Moves (Stock Move Line)"
-msgstr "Mouvements d'article (Ligne de mouvement de stock)"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_product_product__type
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__type
+msgid "Product Type"
+msgstr ""
 
 #. module: phs_stock
 #: model:ir.model,name:phs_stock.model_stock_picking_batch_rule
