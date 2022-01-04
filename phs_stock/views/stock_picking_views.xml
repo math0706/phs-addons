@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- stock.picking tree view -->
+    <record id="stock_picking_view_tree" model="ir.ui.view">
+        <field name="name">stock.picking.view.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="date_quay" optional="show" />
+                <button
+                    name="get_to_quay"
+                    class="btn btn-primary o_list_button_add"
+                    type="object"
+                    string="Get to quay"
+                    attrs="{'invisible': [('date_quay', '!=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- stock.picking form view -->
+    <record id="stock_picking_view_form" model="ir.ui.view">
+        <field name="name">stock.picking.view.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="date_quay" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
