@@ -11,6 +11,7 @@
     "depends": [
         # "stock",
         "stock_picking_batch",
+        "shopfloor",
     ],
     "data": [
         "wizard/batch_force_create_view.xml",
