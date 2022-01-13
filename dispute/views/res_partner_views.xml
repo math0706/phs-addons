@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="act_res_partner_2_dispute" model="ir.actions.act_window">
-            <field name="name">Disputes</field>
-            <field name="res_model">dispute</field>
-            <field name="view_mode">tree,form,graph</field>
-            <field
-            name="context"
-        >{'search_default_partner_id': active_id, 'default_partner_id': active_id}</field>
-    </record>
-
     <record id="res_partner_view_purchase_buttons" model="ir.ui.view">
         <field name="name">res.partner.view.purchase.buttons</field>
         <field name="model">res.partner</field>
@@ -18,9 +9,8 @@
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
-                    class="oe_stat_button"
-                    name="%(dispute.act_res_partner_2_dispute)d"
-                    type="action"
+                    name="action_show_dispute_list"
+                    type="object"
                     icon="fa-exclamation-circle"
                 >
                     <field string="Dispute" name="dispute_count" widget="statinfo" />

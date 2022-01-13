@@ -119,7 +119,7 @@ class Dispute(models.Model):
         compute="_compute_model_ref_id_selected_id"
     )
     partner_id = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_partner_id"
+        comodel_name="res.partner", compute="_compute_partner_id", store="True"
     )
     related_document_ids = fields.One2many(
         comodel_name="dispute.related.document",
@@ -207,6 +207,7 @@ class Dispute(models.Model):
 
 class DisputeLine(models.Model):
     _name = "dispute.line"
+    _inherit = ["mail.activity.mixin"]
     _parent_field = "_undefined"
     _description = "Dispute line"
 
@@ -239,6 +240,11 @@ class DisputeLine(models.Model):
                     product_id = r.model_ref_id[product_field]
             r.product_id = product_id
 
+    @api.depends("model_ref_id")
+    def _compute_price_unit(self):
+        for r in self:
+            r.price_unit = 0
+
     @api.depends("dispute_price", "qty")
     def _compute_total(self):
         for r in self:
@@ -248,6 +254,10 @@ class DisputeLine(models.Model):
     def _on_change_product_id(self):
         self.dispute_price = self.standard_price
 
+    @api.depends("model_ref_id")
+    def _compute_line_ref_id(self):
+        self.line_ref_id = self.model_ref_id and self.model_ref_id.id or "toto"
+
     dispute_id = fields.Many2one(comodel_name="dispute")
     dispute_price = fields.Float(required=True)
     company_currency = fields.Many2one(
@@ -256,6 +266,7 @@ class DisputeLine(models.Model):
         related="dispute_id.company_id.currency_id",
         readonly=True,
     )
+    line_ref_id = fields.Char(compute="_compute_line_ref_id")
     comment = fields.Text()
     model_ref_id = fields.Reference(
         selection="_selection_model", string="Reference", required=True
@@ -272,7 +283,17 @@ class DisputeLine(models.Model):
         ],
         required=True,
     )
+    resolution = fields.Selection(
+        [
+            ("return", "Return"),
+            ("destruction", "Destruction"),
+            ("swap", "Swap"),
+            ("accept", "Accept product"),
+        ],
+        required=True,
+    )
     standard_price = fields.Float(related="product_id.standard_price")
+    price_unit = fields.Float(compute="_compute_price_unit")
     total = fields.Monetary(compute="_compute_total", currency_field="company_currency")
 
     @api.depends("dispute_id.model_ref_id")
@@ -366,15 +387,6 @@ class DisputeLineMixin(models.AbstractModel):
                     )
                     r[r._parent_field].dispute_id = dispute_id.id
                 r.dispute_line_id.dispute_id = dispute_id.id
-
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     #TODO adapt ....
-    #     for values in vals_list:
-    #         new_line = super().create(values)
-    #         new_line.update_dispute(values)
-
-    #     return new_line
 
     def write(self, values):
         res = super().write(values)

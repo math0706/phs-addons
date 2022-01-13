@@ -32,3 +32,26 @@ class Dispute(models.Model):
         models += ["purchase.order"]
 
         return models
+
+
+class DisputeLine(models.Model):
+    _inherit = ["dispute.line"]
+
+    def _compute_price_unit(self):
+        if self.model_ref_id and self.model_ref_id._name == "purchase.order.line":
+            for r in self:
+                r.price_unit = r.model_ref_id.price_unit
+        else:
+            super()._compute_price_unit()
+
+    def _on_change_model_ref_id(self):
+        domains = {
+            "purchase.order.line": [
+                ("order_id.id", "=", self.dispute_id.model_ref_id.id)
+            ],
+            "product.product": [],
+        }
+        if self.model_ref_id and self.model_ref_id._name in domains:
+            return {"domain": {"model_ref_id": domains[self.model_ref_id._name]}}
+        else:
+            return super()._on_change_model_ref_id()
