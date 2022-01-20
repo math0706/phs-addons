@@ -7,15 +7,15 @@ class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
     delivery_type = fields.Selection(
-        selection_add=[("pharmasimple", "Pharmasimple")],
-        ondelete={"pharmasimple": "set default"},
+        selection_add=[("colisprive", "Colis privé")],
+        ondelete={"colisprive": "set default"},
     )
 
-    pharmasimple_default_packaging_id = fields.Many2one(
-        "product.packaging", domain=[("package_carrier_type", "=", "pharmasimple")]
+    colisprive_default_packaging_id = fields.Many2one(
+        "product.packaging", domain=[("package_carrier_type", "=", "colisprive")]
     )
 
-    def pharmasimple_rate_shipment(self, order):
+    def colisprive_rate_shipment(self, order):
         self.ensure_one()
         delivery_product_price = self.product_id and self.product_id.lst_price or 0
         return {
@@ -25,14 +25,14 @@ class DeliveryCarrier(models.Model):
             "warning_message": False,
         }
 
-    def pharmasimple_send_shipping(self, pickings):
+    def colisprive_send_shipping(self, pickings):
         """
         It will generate the labels for all the packages of the picking.
         Packages are mandatory in this case
         """
         labels = []
         for pick in pickings:
-            pick._phs_set_a_default_package()
-            labels += pick._generate_pharmasimple_label()
+            pick._colisprive_set_a_default_package()
+            labels += pick._generate_colisprive_label()
 
         return labels

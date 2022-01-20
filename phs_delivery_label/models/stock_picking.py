@@ -10,17 +10,7 @@ _compile_itemid = re.compile(r"[^0-9A-Za-z+\-_]")
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def get_shipping_label_values(self, label):
-        self.ensure_one()
-        return {
-            "name": label["name"],
-            "res_id": self.id,
-            "res_model": "stock.picking",
-            "datas": label["file"],
-            "file_type": label["file_type"],
-        }
-
-    def _set_a_default_package(self):
+    def _phs_set_a_default_package(self):
         """Pickings using this module must have a package
         If not this method put it one silently
         """
@@ -40,7 +30,7 @@ class StockPicking(models.Model):
                 )
                 move_lines.write({"result_package_id": package.id})
 
-    def _get_packages_from_picking(self):
+    def _phs_get_packages_from_picking(self):
         """ Get all the packages from the picking """
         self.ensure_one()
         operation_obj = self.env["stock.move.line"]
@@ -61,16 +51,25 @@ class StockPicking(models.Model):
         packages = self.env["stock.quant.package"].browse(package_ids)
         return packages
 
-    def info_from_label(self, label):
-        data = base64.b64decode(label["binary"])
+    def phs_info_from_label(self, label):
+        # data = base64.b64decode(label["binary"])
+        data = base64.b64encode(label["binary"])
 
         return {
-            "file": data,
-            "file_type": label["file_type"],
-            "name": "1234" + "." + label["file_type"],
+            "labels": [
+                {
+                    "file": data,
+                    "file_type": label["file_type"],
+                    "name": "{}.{}".format(
+                        label["tracking_number"], label["file_type"]
+                    ),
+                }
+            ],
+            "exact_price": False,
+            "tracking_number": label["tracking_number"],
         }
 
-    def write_tracking_number_label(self, label_result, packages):
+    def phs_write_tracking_number_label(self, label_result, packages):
         """
         If there are no pack defined, write tracking_number on picking
         otherwise, write it on parcel_tracking field of each pack.
@@ -86,7 +85,7 @@ class StockPicking(models.Model):
         if not packages:
             label = label_result[0]["value"][0]
             self.carrier_tracking_ref = label["tracking_number"]
-            labels.append(self.info_from_label(label))
+            labels.append(self.phs_info_from_label(label))
 
         tracking_refs = []
         for package in packages:
@@ -95,7 +94,7 @@ class StockPicking(models.Model):
                 for label_value in label["value"]:
                     if package.name in label_value["item_id"].split("+")[-1]:
                         tracking_numbers.append(label_value["tracking_number"])
-                        labels.append(self.info_from_label(label_value))
+                        labels.append(self.phs_info_from_label(label_value))
             package.parcel_tracking = "; ".join(tracking_numbers)
             tracking_refs += tracking_numbers
 
@@ -105,7 +104,7 @@ class StockPicking(models.Model):
         self.carrier_tracking_ref = "; ".join(existing_tracking_ref + tracking_refs)
         return labels
 
-    def _get_itemid(self, picking, pack_no):
+    def _phs_get_itemid(self, picking, pack_no):
         """Allowed characters are alphanumeric plus `+`, `-` and `_`
         Last `+` separates picking name and package number (if any)
 
@@ -120,7 +119,7 @@ class StockPicking(models.Model):
         codes = [name, pack_no]
         return "+".join(c for c in codes if c)
 
-    def generate_label(self, picking, packages):
+    def phs_generate_label(self, picking, packages):
         results = []
 
         for package in packages:
@@ -136,11 +135,11 @@ class StockPicking(models.Model):
             res["success"] = True
             res["value"].append(
                 {
-                    "item_id": self._get_itemid(
+                    "item_id": self._phs_get_itemid(
                         picking, package.name if package else None
                     ),
                     "binary": binary,
-                    "tracking_number": "1234",
+                    "tracking_number": "{}".format(picking.id),
                     "file_type": file_type,
                 }
             )
@@ -152,7 +151,7 @@ class StockPicking(models.Model):
         self.ensure_one()
 
         if package_ids is None:
-            packages = self._get_packages_from_picking()
+            packages = self._phs_get_packages_from_picking()
             packages = packages.sorted(key=attrgetter("name"))
         else:
             # restrict on the provided packages
@@ -162,7 +161,7 @@ class StockPicking(models.Model):
         # Do not generate label for packages that are already done
         packages = packages.filtered(lambda p: not p.parcel_tracking)
 
-        label_results = self.generate_label(self, packages)
+        label_results = self.phs_generate_label(self, packages)
 
         # Process the success packages first
         success_label_results = [
@@ -174,7 +173,7 @@ class StockPicking(models.Model):
         if failed_label_results:
             self._cr.rollback()
 
-        labels = self.write_tracking_number_label(success_label_results, packages)
+        labels = self.phs_write_tracking_number_label(success_label_results, packages)
 
         if failed_label_results:
             # Commit the change to save the changes,
@@ -184,8 +183,3 @@ class StockPicking(models.Model):
             raise exceptions.Warning(error_message)
 
         return labels
-
-    def generate_pharmasimple_shipping_labels(self, package_ids=None):
-        """ Add label generation for Pharmasimple """
-        self.ensure_one()
-        return self._generate_pharmasimple_label(package_ids=package_ids)

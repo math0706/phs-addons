@@ -91,7 +91,7 @@ MbeiQ8MIr/9WRpX/H41Y4Z8J+2nHD3Sfn+PszuPszzccG/OtieSfL6/TMAAAAASUVORK5CYII='"
                                     <td rowspan="3">
                                     <div
                                         t-field="res_company.partner_id"
-                                        t-field-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
+                                        t-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
                                     />
                                     </td>
                                     <td width="54" />
@@ -111,14 +111,14 @@ MbeiQ8MIr/9WRpX/H41Y4Z8J+2nHD3Sfn+PszuPszzccG/OtieSfL6/TMAAAAASUVORK5CYII='"
                                     <th width="54" class="corner-tl">To :</th>
                                     <td rowspan="3" border="0">
                                         <div
-                                        t-field="o.move_lines[0].partner_id"
-                                        t-field-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
+                                        t-field="o.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["name", "address", "phone", "fax"], "no_marker": true}'
                                     />
                                     </td>
                                     <td width="54" />
                                 </tr>
                                 <tr>
-                                    <!-- <td t-field="o.sale_id" /> -->
+                                    <!-- <td t-field="o.origin" /> -->
                                 </tr>
                                 <tr>
                                     <td />
@@ -127,8 +127,12 @@ MbeiQ8MIr/9WRpX/H41Y4Z8J+2nHD3Sfn+PszuPszzccG/OtieSfL6/TMAAAAASUVORK5CYII='"
                             </table>
                         </div>
                         <div class="row">
-                            <!-- <h6 class="reference">Reference : <div  t-field="o.sale_id"></div></h6>
-                            <h6 class="reference">Reference int: <div  t-field="o.sale_id.prestashop_order_id"></div></h6> -->
+                            <h6 class="reference">Reference : <div
+                                t-field="o.sale_id"
+                            /></h6>
+                            <h6 class="reference">Reference int: <div
+                                t-field="o.sale_id.client_order_ref"
+                            /></h6>
                         </div>
                     </div>
             </t>

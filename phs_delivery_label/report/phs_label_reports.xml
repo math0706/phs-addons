@@ -13,7 +13,7 @@
                 name="report_file"
             >phs_delivery_label.report_pharmasimple_label</field>
             <field name="print_report_name">(object._get_report_base_filename())</field>
-            <field name="attachment">(object.name+'.pdf')</field>
+            <field name="attachment" />
             <field name="binding_model_id" ref="model_stock_picking" />
             <field name="binding_type">report</field>
         </record>
