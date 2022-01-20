@@ -12,7 +12,7 @@
             />
             <field name="doall" eval="False" />
             <field name="model_id" ref="product.model_product_template" />
-            <field name="code">model.untag_product()</field>
+            <field name="code">model.update_tag_new()</field>
             <field name="state">code</field>
         </record>
 

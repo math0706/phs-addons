@@ -21,7 +21,7 @@ class ProductTemplate(models.Model):
         date_new_product = datetime.today() - timedelta(days=int(nbr_days_tag_new))
         new_tag_id = self.env.ref("phs_product_auto_tags.tag_new")
         self.search(
-            [("tag_ids", "=", new_tag_id.id), ("create_date", ">", date_new_product)]
+            [("tag_ids", "=", new_tag_id.id), ("create_date", "<", date_new_product)]
         ).write({"tag_ids": [(3, new_tag_id.id)]})
 
     def top_100_delivered_product(self):
