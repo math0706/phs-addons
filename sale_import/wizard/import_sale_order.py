@@ -45,24 +45,20 @@ class ImportSaleOrder(models.TransientModel):
                         "partner_id": partner_id.id,
                     }
                 )
-            product_ids = self.env["product.product"].search(
+            product_id = self.env["product.product"].search(
                 [("default_code", "=", cnk)], limit=1
             )
-            if product_ids:
-                product_id = product_ids[0]
+            if product_id:
                 order_line_id = self.env["sale.order.line"].create(
                     {
                         "order_id": order_id.id,
                         "product_id": product_id.id,
                     }
                 )
-                # order_line_id.product_id_change()
                 order_line_id.product_uom_qty = quantity
             else:
                 log += f"Article manquant CNK:{cnk} Quantity :{quantity}\r\n"
             cpt += 1
-        # if order_id and log:
-        #     order_id.imported_log = log
 
         if order_id:
             action = self.env.ref("sale.action_quotations").read()[0]
