@@ -14,8 +14,7 @@ class Dispute(models.Model):
 
     @api.depends("model_ref_id")
     def _compute_partner_id(self):
-        for r in self:
-            r.partner_id = r.model_ref_id and r.model_ref_id.partner_id or False
+        pass
 
     @api.depends("model_ref_id")
     def _compute_type(self):
