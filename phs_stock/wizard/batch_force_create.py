@@ -29,5 +29,5 @@ class BatchForceCreate(models.TransientModel):
             "res_model": "stock.picking.batch",
             "view_id": False,
             "type": "ir.actions.act_window",
-            "domain": [("id", "in", created_batch)],
+            "domain": [("id", "in", created_batch.ids)],
         }

@@ -80,7 +80,7 @@ class StockPickingBatchRule(models.Model):
                             picking.write({"batch_id": new_batch.id})
                         created_batch += new_batch
 
-        return created_batch.ids
+        return created_batch
 
     def create_new_batch(self, batch_rule):
         new_batch = self.env["stock.picking.batch"].create(
