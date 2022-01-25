@@ -183,6 +183,7 @@ class StockMoveLine(models.Model):
         if (
             len(self) == 1
             and "location_dest_id" in values
+            and not self.product_id.categ_id.no_order_box_limit
             and not self._check_if_so_allready_in_box(values["location_dest_id"])
         ):
             last_scanned_box = self._check_if_so_in_other_box(

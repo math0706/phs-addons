@@ -10,12 +10,14 @@
     "website": "https://github.com/akretion/phs-addons",
     "depends": [
         # "stock",
+        "product",
         "stock_picking_batch",
         "shopfloor",
     ],
     "data": [
         "wizard/batch_force_create_view.xml",
         "views/res_partner_views.xml",
+        "views/product_category.xml",
         "views/stock_picking_batch.xml",
         "views/stock_picking_views.xml",
         "security/ir.model.access.csv",

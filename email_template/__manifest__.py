@@ -8,7 +8,7 @@
     "version": "14.0.1.0.0",
     "author": "Pharmasimple",
     "license": "AGPL-3",
-    "website": "https://www.pharmasimple.com",
+    "website": "https://github.com/akretion/phs-addons",
     "depends": [
         "mail",
     ],
