@@ -43,7 +43,7 @@ class StockPickingBatchRule(models.Model):
     picking_type_id = fields.Many2one(comodel_name="stock.picking.type")
     sequence = fields.Integer(default=5)
 
-    def batch_creation(self, force_create, nbr_batch):
+    def batch_creation(self, force_create, nbr_batch=9999999):
         created_batch = self.env["stock.picking.batch"]
         pickings = self.env["stock.picking"]
         for batch_rule in self:
@@ -51,7 +51,7 @@ class StockPickingBatchRule(models.Model):
                 safe_eval(self.filter_id.domain)
             )
             nbr_order_in_a_batch = batch_rule.nbr_box * batch_rule.nbr_order
-            if nbr_batch <= int(len(pickings) / nbr_order_in_a_batch):
+            if nbr_batch and nbr_batch <= int(len(pickings) / nbr_order_in_a_batch):
                 nbr_batch_to_create = nbr_batch * nbr_order_in_a_batch
             else:
                 nbr_batch_to_create = (
