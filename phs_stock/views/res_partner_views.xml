@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_view_stock_orderpoint_buttons" model="ir.ui.view">
+        <field name="name">res.partner.view.stock.orderpoints.buttons</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority" eval="10" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="stock_orderpoint" type="object" icon="fa-list">
+                    <field
+                        string="Stock Orderpoint"
+                        name="stock_orderpoint_count"
+                        widget="statinfo"
+                    />
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

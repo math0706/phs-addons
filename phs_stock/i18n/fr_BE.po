@@ -1,0 +1,212 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* phs_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-29 09:47+0000\n"
+"PO-Revision-Date: 2021-11-29 09:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: phs_stock
+#: model:ir.model.fields,help:phs_stock.field_product_product__type
+#: model:ir.model.fields,help:phs_stock.field_product_template__type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Un produit stockable est un produit pour lequel vous gérez le stock. L'application Inventory doit être installée.\n"
+"Un produit consommable est un produit pour lequel le stock n'est pas géré.\n"
+"Un service est un produit immatériel que vous fournissez."
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__batch_rule_id
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type__batch_rule_ids
+msgid "Batch Rule"
+msgstr "Règle de vague"
+
+#. module: phs_stock
+#: model:ir.actions.act_window,name:phs_stock.stock_picking_batch_rule_action
+msgid "Batch Rules"
+msgstr "Règles de vague"
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_stock_picking_batch
+msgid "Batch Transfer"
+msgstr "Transfert de vague"
+
+#. module: phs_stock
+#: model:ir.ui.menu,name:phs_stock.stock_picking_batch_rule
+msgid "Batch rules"
+msgstr "Règles de vague"
+
+#. module: phs_stock
+#: model_terms:ir.ui.view,arch_db:phs_stock.view_batch_force_create_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: phs_stock
+#: model:ir.model.fields,help:phs_stock.field_batch_force_create__force_create
+msgid "Check this box if you want to create an incomplete batch"
+msgstr "Cochez cette boîte si vous voulez créer des vagues incomplète"
+
+#. module: phs_stock
+#: model:ir.model.fields,help:phs_stock.field_batch_force_create__nbr_batch
+msgid "Complete the number of batch that you want to create"
+msgstr "Completez le nombre de vagues que vous voulez créer"
+
+#. module: phs_stock
+#: model_terms:ir.ui.view,arch_db:phs_stock.view_batch_force_create_wizard
+msgid "Create"
+msgstr "Créer"
+
+#. module: phs_stock
+#: model:ir.actions.act_window,name:phs_stock.action_batch_force_create
+#: model_terms:ir.ui.view,arch_db:phs_stock.view_batch_force_create_wizard
+msgid "Create Batch"
+msgstr "créer une vague"
+
+#. module: phs_stock
+#: model_terms:ir.ui.view,arch_db:phs_stock.stock_picking_batch_rule_view_tree
+msgid "Create batch"
+msgstr "créer une vague"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__create_uid
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__create_date
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__create_date
+msgid "Created on"
+msgstr "Créé sur"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__display_name
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__filter_id
+msgid "Filter"
+msgstr "Filtre"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__id
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__id
+#: model:ir.model.fields,field_description:phs_stock.field_stock_move_line__id
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__id
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__id
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_product_template____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_stock_move_line____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule____last_update
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__write_uid
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__write_date
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__nbr_box
+msgid "Nbr Box"
+msgstr "Nbr de boîtes"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__nbr_order
+msgid "Nbr Order"
+msgstr "Nbr de commande"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__nbr_batch
+msgid "Number of batch to create"
+msgstr "Nombre de vagues à créer"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__nbr_batch
+msgid "Number of complete batch"
+msgstr "Nombre de vague complète"
+
+#. module: phs_stock
+#: code:addons/phs_stock/wizard/batch_force_create.py:0
+#, python-format
+msgid "Picking Batch"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_stock_picking_type
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__picking_type_id
+msgid "Picking Type"
+msgstr "Type de préparation"
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_product_product__type
+#: model:ir.model.fields,field_description:phs_stock.field_product_template__type
+msgid "Product Type"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_stock_picking_batch_rule
+msgid "Rules to create picking batch"
+msgstr "Règles pour créer une vague"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__sequence
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: phs_stock
+#: model:ir.model,name:phs_stock.model_batch_force_create
+msgid "batch.force.create"
+msgstr ""
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__force_create
+msgid "create incomplete batch"
+msgstr "création d'une vague incomplète"

@@ -2,7 +2,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -12,6 +12,17 @@ _logger = logging.getLogger(__name__)
 class StockPickingBatchRule(models.Model):
     _name = "stock.picking.batch.rule"
     _description = "Rules to create picking batch"
+    _order = "sequence,id"
+
+    @api.depends("filter_id", "nbr_box", "nbr_order")
+    def _compute_nbr_batch(self):
+        for record in self:
+            if record.filter_id:
+                pickings = self.env["stock.picking"].search(
+                    safe_eval(record.filter_id.domain)
+                )
+                nbr_order_in_a_batch = record.nbr_box * record.nbr_order
+                record.nbr_batch = int(len(pickings) / nbr_order_in_a_batch)
 
     name = fields.Char()
 
@@ -23,25 +34,33 @@ class StockPickingBatchRule(models.Model):
     )
     nbr_box = fields.Integer(default=9, required=True)
     nbr_order = fields.Integer(default=6, required=True)
+    nbr_batch = fields.Integer(
+        readonly=True,
+        compute="_compute_nbr_batch",
+        default=0,
+        string="Number of complete batch",
+    )
     picking_type_id = fields.Many2one(comodel_name="stock.picking.type")
     sequence = fields.Integer(default=5)
 
-    def batch_creation(self, force_create):
+    def batch_creation(self, force_create, nbr_batch):
         created_batch = self.env["stock.picking.batch"]
         pickings = self.env["stock.picking"]
         for batch_rule in self:
-            pre_filtered_domain = [
-                ("picking_type_id", "=", batch_rule.picking_type_id.id),
-                ("state", "=", "assigned"),
-                ("batch_id", "=", False),
-            ]
-            pickings = pickings.search(
-                pre_filtered_domain + safe_eval(batch_rule.filter_id.domain)
+            pickings = self.env["stock.picking"].search(
+                safe_eval(self.filter_id.domain)
             )
             nbr_order_in_a_batch = batch_rule.nbr_box * batch_rule.nbr_order
+            if nbr_batch <= int(len(pickings) / nbr_order_in_a_batch):
+                nbr_batch_to_create = nbr_batch * nbr_order_in_a_batch
+            else:
+                nbr_batch_to_create = (
+                    int(len(pickings) / nbr_order_in_a_batch) * nbr_order_in_a_batch
+                )
+
             for i in range(
                 0,
-                int(len(pickings) / nbr_order_in_a_batch) * nbr_order_in_a_batch,
+                nbr_batch_to_create,
                 nbr_order_in_a_batch,
             ):
                 new_batch = self.create_new_batch(batch_rule)
@@ -51,11 +70,16 @@ class StockPickingBatchRule(models.Model):
                 rest_of_picking = pickings.filtered(
                     lambda r: r.id not in created_batch.picking_ids.ids
                 )
-                if rest_of_picking:
-                    new_batch = self.create_new_batch(batch_rule)
-                    for picking in rest_of_picking:
-                        picking.write({"batch_id": new_batch.id})
-                    created_batch += new_batch
+                if len(rest_of_picking) < nbr_batch * nbr_order_in_a_batch:
+                    if (
+                        rest_of_picking
+                        and int(len(rest_of_picking) / nbr_order_in_a_batch) < 1
+                    ):
+                        new_batch = self.create_new_batch(batch_rule)
+                        for picking in rest_of_picking:
+                            picking.write({"batch_id": new_batch.id})
+                        created_batch += new_batch
+
         return created_batch.ids
 
     def create_new_batch(self, batch_rule):
@@ -66,6 +90,12 @@ class StockPickingBatchRule(models.Model):
             }
         )
         return new_batch
+
+    def get_a_new_batch(self):
+        for record in self:
+            if record.nbr_batch > 0:
+                record.batch_creation(False, 1)
+                break
 
 
 class StockPickingBatch(models.Model):
@@ -115,7 +145,11 @@ class StockMoveLine(models.Model):
         """Check that the box allready contain a product of the same order"""
         move_line = self.env["stock.move.line"].search(
             [
-                ("location_dest_id.name", "!=", "Packing Zone"),
+                (
+                    "location_dest_id.id",
+                    "!=",
+                    self.move_id.picking_type_id.default_location_dest_id.id,
+                ),
                 ("location_dest_id", "!=", location),
                 (
                     "move_id.picking_id.batch_id.state",

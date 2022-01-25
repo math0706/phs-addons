@@ -11,10 +11,13 @@
     "depends": [
         # "stock",
         "stock_picking_batch",
+        "shopfloor",
     ],
     "data": [
         "wizard/batch_force_create_view.xml",
+        "views/res_partner_views.xml",
         "views/stock_picking_batch.xml",
+        "views/stock_picking_views.xml",
         "security/ir.model.access.csv",
     ],
     "installable": True,
