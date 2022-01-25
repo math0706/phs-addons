@@ -80,7 +80,7 @@ class StockPickingBatchRule(models.Model):
                             picking.write({"batch_id": new_batch.id})
                         created_batch += new_batch
 
-        return created_batch.ids
+        return created_batch
 
     def create_new_batch(self, batch_rule):
         new_batch = self.env["stock.picking.batch"].create(
@@ -183,6 +183,7 @@ class StockMoveLine(models.Model):
         if (
             len(self) == 1
             and "location_dest_id" in values
+            and not self.product_id.categ_id.no_order_box_limit
             and not self._check_if_so_allready_in_box(values["location_dest_id"])
         ):
             last_scanned_box = self._check_if_so_in_other_box(

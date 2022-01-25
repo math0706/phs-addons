@@ -1,3 +1,4 @@
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 from odoo.tools.safe_eval import safe_eval
 
@@ -30,6 +31,13 @@ class TestStockPickingBatchRule(TransactionCase):
                 "nbr_order": 1,
                 "picking_type_id": self.type_pick_out_id.id,
             }
+        )
+        self.output_loc = self.env.ref("stock.stock_location_output")
+        self.bac1 = self.env["stock.location"].create(
+            {"name": "BAC-0001", "location_id": self.output_loc.id}
+        )
+        self.bac2 = self.env["stock.location"].create(
+            {"name": "BAC-0002", "location_id": self.output_loc.id}
         )
 
     def test_no_rule_no_batch(self):
@@ -92,3 +100,35 @@ class TestStockPickingBatchRule(TransactionCase):
         batch_ids[0].action_cancel()
         for move_line in move_lines:
             self.assertFalse(move_line.picking_id.batch_id)
+
+    def test_category_no_limit(self):
+        """Product from catagory with "no order limit in box" settings
+        can be put all in the same box,
+        no matter the box attributed to the others products from the same order
+        and no matter the number of order already in the destination box"""
+
+        self.picking_batch.search([]).mapped(lambda r: r.action_cancel())
+        batch = self.rule.batch_creation(True)[0]
+        batch[0].picking_ids.move_line_ids.mapped("product_id.categ_id").write(
+            {"no_order_box_limit": True}
+        )
+        try:
+            for line in batch[0].picking_ids.move_line_ids:
+                line.write({"location_dest_id": self.bac1.id})
+        except Exception as e:
+            self.fail("test_category_no_limit raise unwanted error:{}".format(e))
+
+    def test_category_with_limit(self):
+        """Product from catagory with "no order limit in box" settings
+        can be put all in the same box,
+        no matter the box attributed to the others products from the same order
+        and no matter the number of order already in the destination box"""
+
+        self.picking_batch.search([]).mapped(lambda r: r.action_cancel())
+        batch = self.rule.batch_creation(True)[0]
+        batch[0].picking_ids.move_line_ids.mapped("product_id.categ_id").write(
+            {"no_order_box_limit": False}
+        )
+        with self.assertRaises(UserError):
+            for line in batch[0].picking_ids.move_line_ids:
+                line.write({"location_dest_id": self.bac1.id})
