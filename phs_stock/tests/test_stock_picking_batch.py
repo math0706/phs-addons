@@ -18,7 +18,10 @@ class TestStockPickingBatchRule(TransactionCase):
             {
                 "name": "All",
                 "model_id": "stock.picking",
-                "domain": "[]",
+                "domain": """[('picking_type_id', '=', {}),
+                            ('state', 'in', ['assigned'])]""".format(
+                    self.type_pick_out_id.id
+                ),
                 "context": "{'group_by': []}",
                 "sort": "[]",
             }
