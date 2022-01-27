@@ -12,7 +12,7 @@
         "base",
         "base_delivery_carrier_label",
     ],
-    "data": [],
+    "data": ["views/carrier_account.xml"],
     "installable": True,
     "application": False,
 }

@@ -140,8 +140,8 @@ class StockPicking(models.Model):
         payload_con_data = {
             "UserName": carrier_account.account,
             "Password": carrier_account.password,
-            "CPCustoID": "WK",  # TODO use carrier options
-            "AccountID": "EM270518",  # TODO use carrier options
+            "CPCustoID": carrier_account.colisprive_cpcustoid,
+            "AccountID": carrier_account.colisprive_accountid,
         }
         ship_payload = """<?xml version="1.0" encoding="UTF-8"?>
         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"

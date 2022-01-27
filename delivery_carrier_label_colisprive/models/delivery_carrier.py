@@ -1,6 +1,13 @@
 from odoo import fields, models
 
 
+class CarrierAccount(models.Model):
+    _inherit = "carrier.account"
+
+    colisprive_cpcustoid = fields.Char(string="CPCustoID")
+    colisprive_accountid = fields.Char(string="AccountID")
+
+
 class DeliveryCarrier(models.Model):
     """ Add service group """
 
