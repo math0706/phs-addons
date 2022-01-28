@@ -1,14 +1,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
-
 import logging
-from datetime import date, timedelta
-import base64
-import requests
-import shutil
-from odoo import api, fields, models
-from odoo.exceptions import UserError
+
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -21,6 +15,6 @@ class StockPicking(models.Model):
 
         vals["agencyId"] = "BE7100"
         vals["customerId"] = "0560004689"
-        vals["parcel_total_number"] = 123
-        
+        vals["parcel_total_number"] = 1
+
         return vals

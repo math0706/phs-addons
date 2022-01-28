@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_delivery_carrier_gls" model="ir.sequence">
+        <field name="name">GLS</field>
+        <field name="code">delivery_carrier_gls</field>
+        <field eval="1970" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="10" name="padding" />
+    </record>
+</odoo>

@@ -8,14 +8,8 @@
     "author": "Pharmasimple",
     "license": "AGPL-3",
     "website": "https://github.com/akretion/phs-addons",
-    "depends": [
-        "base",
-        "delivery",
-        "delivery_roulier"
-    ],
-    "data": [
-        "views/stock_picking_views.xml"
-    ],
+    "depends": ["base", "delivery", "delivery_roulier"],
+    "data": ["data/sequence.xml", "views/stock_picking_views.xml"],
     "installable": True,
     "application": False,
 }
