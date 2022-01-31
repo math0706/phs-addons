@@ -28,6 +28,12 @@ msgstr ""
 "Un service est un produit immatériel que vous fournissez."
 
 #. module: phs_stock
+#: model_terms:ir.ui.view,arch_db:phs_stock.stock_picking_view_tree
+msgid "At dock"
+msgstr "A quai"
+
+
+#. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch__batch_rule_id
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_type__batch_rule_ids
 msgid "Batch Rule"
@@ -90,6 +96,11 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:phs_stock.field_stock_picking_batch_rule__create_date
 msgid "Created on"
 msgstr "Créé sur"
+
+#. module: phs_stock
+#: model:ir.model.fields,field_description:phs_stock.field_stock_picking__date_quay
+msgid "Date Quay"
+msgstr "Date à quai"
 
 #. module: phs_stock
 #: model:ir.model.fields,field_description:phs_stock.field_batch_force_create__display_name
