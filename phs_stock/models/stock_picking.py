@@ -9,7 +9,7 @@ class StockPicking(models.Model):
     _name = "stock.picking"
     _inherit = "stock.picking"
 
-    date_quay = fields.Date()
+    date_quay = fields.Date(tracking=True)
 
-    def get_to_quay(self):
+    def put_at_dock(self):
         self.date_quay = date.today()
