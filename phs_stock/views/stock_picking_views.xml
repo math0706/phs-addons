@@ -9,10 +9,10 @@
             <field name="state" position="before">
                 <field name="date_quay" optional="show" />
                 <button
-                    name="get_to_quay"
+                    name="put_at_dock"
                     class="btn btn-primary o_list_button_add"
                     type="object"
-                    string="Get to quay"
+                    string="At dock"
                     attrs="{'invisible': [('date_quay', '!=', False)]}"
                 />
             </field>
