@@ -58,14 +58,6 @@ class StockPicking(models.Model):
     def _chronopost_fr_get_to_address(self, package=None):
         vals = self._roulier_get_to_address(package=package)
 
-        vals["contact_name"] = self.partner_id.name
-        vals["city"] = self.partner_id.city
-        vals["country"] = self.partner_id.country_id.code
-        vals["country_name"] = self.partner_id.country_id.name
-        vals["name"] = self.partner_id.name
-        vals["street1"] = self.partner_id.street
-        vals["zip"] = self.partner_id.zip
-        vals["email"] = self.partner_id.email
-        vals["phone"] = self.partner_id.phone
+        vals["phone"] = self.partner_id.phone or ""
 
         return vals

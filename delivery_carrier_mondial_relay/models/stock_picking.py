@@ -17,7 +17,7 @@ class StockPicking(models.Model):
         vals = self._roulier_get_service(account, package=package)
 
         vals["pickupMode"] = "CCC"
-        vals["shippingCountry"] = "BE"
+        vals["shippingCountry"] = self.partner_id.country_id.code
         vals["shippingSite"] = self.partner_id.delivery_point_ref
         vals["shippingId"] = self.sale_id.id
         vals["customerId"] = self.partner_id.id
@@ -45,6 +45,7 @@ class StockPicking(models.Model):
         if self.delivery_type == "mondialrelay":
             if res[0].get("labels")[0].get("file"):
                 url = res[0].get("labels")[0].get("file")
+                url = url.replace("format=A4", "format=10x15")
                 response = requests.get(url)
                 if response.status_code == 200:
                     label = res[0].get("labels")[0]
