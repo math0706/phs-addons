@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="import_product_wizard_form_view" model="ir.ui.view">
+        <field name="name">import.product.wizard.form</field>
+        <field name="model">import.product.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Field to import">
+                <header>
+                    <button
+                        name="update_all"
+                        string="Update All"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('product_id', '=', False)]}"
+                    />
+                    <button
+                        name="update_none"
+                        string="Update None"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('product_id', '=', False)]}"
+                    />
+                    <button
+                        name="import_new_product"
+                        string="Import Medipim"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="reset_form"
+                        string="Reset Form"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                </header>
+                <group>
+
+                    <field name="product_id" invisible="1" />
+                    <group attrs="{'invisible': [('product_id', '!=', False)]}">
+                        <field name="code_type" />
+                    </group>
+                </group>
+                <group attrs="{'invisible': [('code_type', '=', False)]}">
+                        <field name="ean" />
+                        <field name="cnk" />
+                </group>
+                <group
+                    attrs="{'invisible': [('code_type', '=', False), ('result', '=', False)]}"
+                >
+                        <field name="result" />
+                        <field name="name_fr" />
+                        <field name="public_price" />
+                        <field name="vat" />
+                        <field name="weight" />
+                        <field name="link_url" widget="url" />
+                    </group>
+                <group attrs="{'invisible': [('product_id', '=', False)]}">
+                    <field name="import_field_ids">
+                        <tree edit="true" create="false" editable="top">
+                            <field name="list_fields" force_save="1" readonly="1" />
+                            <field name="old_value" force_save="1" readonly="1" />
+                            <field name="new_value" />
+                            <field name="update_field" />
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        string='Import'
+                        name="import_product"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="import_product_wizard" model="ir.actions.act_window">
+        <field name="name">Import Medipim</field>
+        <field name="res_model">import.product.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_product" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <menuitem
+        id="import_product_menu"
+        parent="stock.menu_stock_inventory_control"
+        action="import_product_wizard"
+    />
+
+
+</odoo>

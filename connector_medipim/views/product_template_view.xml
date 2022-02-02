@@ -1,0 +1,18 @@
+<odoo>
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    string="Import Medipim"
+                    type="action"
+                    groups="stock.group_stock_manager"
+                    name="%(import_product_wizard)d"
+                />
+            </header>
+        </field>
+    </record>
+
+</odoo>
