@@ -19,7 +19,7 @@ class StockPicking(models.Model):
         vals["pickupMode"] = "CCC"
         vals["shippingCountry"] = self.partner_id.country_id.code
         vals["shippingSite"] = self.partner_id.delivery_point_ref
-        vals["shippingId"] = self.sale_id.id
+        vals["shippingId"] = self.id
         vals["customerId"] = self.partner_id.id
         vals["product"] = "24R"
 
