@@ -1,4 +1,4 @@
-from odoo import _, models
+from odoo import _, api, models
 
 
 class Dispute(models.Model):
@@ -10,6 +10,14 @@ class Dispute(models.Model):
         selection_model.append((model_name, _(self.env[model_name]._description)))
 
         return selection_model
+
+    @api.depends("model_ref_id")
+    def _compute_partner_id(self):
+        for r in self.filtered(
+            lambda r: r.model_ref_id and r.model_ref_id._name == "purchase.order"
+        ):
+            r.partner_id = r.model_ref_id and r.model_ref_id.partner_id or False
+        super()._compute_partner_id()
 
     def get_line_model_info(self, model_name):
         line_model_info = {
@@ -32,3 +40,26 @@ class Dispute(models.Model):
         models += ["purchase.order"]
 
         return models
+
+
+class DisputeLine(models.Model):
+    _inherit = ["dispute.line"]
+
+    def _compute_price_unit(self):
+        if self.model_ref_id and self.model_ref_id._name == "purchase.order.line":
+            for r in self:
+                r.price_unit = r.model_ref_id.price_unit
+        else:
+            super()._compute_price_unit()
+
+    def _on_change_model_ref_id(self):
+        domains = {
+            "purchase.order.line": [
+                ("order_id.id", "=", self.dispute_id.model_ref_id.id)
+            ],
+            "product.product": [],
+        }
+        if self.model_ref_id and self.model_ref_id._name in domains:
+            return {"domain": {"model_ref_id": domains[self.model_ref_id._name]}}
+        else:
+            return super()._on_change_model_ref_id()

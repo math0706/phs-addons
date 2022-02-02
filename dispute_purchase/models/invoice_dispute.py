@@ -1,4 +1,4 @@
-from odoo import _, models
+from odoo import _, api, models
 
 
 class Dispute(models.Model):
@@ -10,6 +10,14 @@ class Dispute(models.Model):
         selection_model.append((model_name, _(self.env[model_name]._description)))
 
         return selection_model
+
+    @api.depends("model_ref_id")
+    def _compute_partner_id(self):
+        for r in self.filtered(
+            lambda r: r.model_ref_id and r.model_ref_id._name == "account.move"
+        ):
+            r.partner_id = r.model_ref_id and r.model_ref_id.partner_id or False
+        super()._compute_partner_id()
 
     def get_line_model_info(self, model_name):
         line_model_info = {

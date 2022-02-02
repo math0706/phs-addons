@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="stock_reception_error_seq" model="ir.sequence">
+        <field name="name">stock reception error sequence</field>
+        <field name="code">stock_reception_error</field>
+        <field name="prefix">SRE/</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="5" name="padding" />
+        <field eval="False" name="company_id" />
+    </record>
+</odoo>
